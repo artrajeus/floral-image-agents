@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gift Welcome Flowers — Floral Image Canberra</title>
+<meta name="description" content="Log a free welcome-flowers gift for your client's new home or office. Delivered by Floral Image Canberra with your card.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='12' r='8' fill='%232C5A40'/%3E%3Crect x='14.5' y='18' width='3' height='11' rx='1.5' fill='%232C5A40'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="wordmark" href="index.html">FLORAL IMAGE<small>CANBERRA</small></a>
+    <span style="font-size:13px;color:var(--muted)">Agent gifting page</span>
+  </div>
+</div>
+
+<div class="wrap narrow">
+  <div class="agent-head" id="agent-head">
+    <!-- populated by portal.js -->
+  </div>
+  <h1 style="font-size:clamp(28px,4.5vw,40px)">Gift welcome flowers.<br>On us, from you.</h1>
+  <p class="lede">Sixty seconds now; a designer arrangement with your card on your client's bench this week. Free, always.</p>
+
+  <div class="assure">
+    <strong>What happens after you hit send:</strong>
+    <ul>
+      <li>We <b>phone your client first</b> to arrange the best delivery time — you'll see (and can edit) exactly how we introduce it below.</li>
+      <li>We <b>hand-deliver</b> a premium arrangement with your printed card.</li>
+      <li><b>Never a hard sell, never spam.</b> Their details are used to deliver your gift — nothing else.</li>
+      <li>You get an email confirmation now and another once it's delivered.</li>
+    </ul>
+  </div>
+
+  <div class="banner-warn" id="gift-offline" hidden>This page isn't connected to our delivery system yet — call us or email <a href="mailto:canberra@floralimage.com">canberra@floralimage.com</a> to log this gift directly.</div>
+
+  <form id="gift-form" novalidate>
+    <div style="position:absolute;left:-6000px" aria-hidden="true"><input type="text" name="company_website" tabindex="-1" autocomplete="off"></div>
+
+    <fieldset>
+      <legend>The occasion</legend>
+      <div class="radio-cards" id="occasion">
+        <label class="on"><input type="radio" name="occasion" value="home" checked>New home<span>Settlement or new lease — residential</span></label>
+        <label><input type="radio" name="occasion" value="office">New office<span>Commercial lease or fit-out</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>You</legend>
+      <div class="row2">
+        <div class="field"><label for="g-agent">Your name</label><input id="g-agent" type="text" autocomplete="name" required><div class="err">Please add your name — it goes on the card.</div></div>
+        <div class="field"><label for="g-agency">Agency</label><input id="g-agency" type="text" autocomplete="organization" required><div class="err">Please add your agency.</div></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="g-email">Your email</label><input id="g-email" type="email" autocomplete="email" required><div class="err">We need a valid email for your confirmation.</div><div class="hint">Confirmation + delivered notice go here.</div></div>
+        <div class="field"><label for="g-mobile">Your mobile <span class="opt">(optional)</span></label><input id="g-mobile" type="tel" autocomplete="tel"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Your client</legend>
+      <div class="row2">
+        <div class="field"><label for="c-name">Client name</label><input id="c-name" type="text" required><div class="err">Who are we delivering to?</div></div>
+        <div class="field"><label for="c-phone">Client phone</label><input id="c-phone" type="tel" required><div class="err">We call first — a phone number is essential.</div></div>
+      </div>
+      <div class="field"><label for="c-address">Delivery address</label><input id="c-address" type="text" placeholder="Street, suburb — Canberra region" required><div class="err">Where's the new place?</div></div>
+      <div class="field"><label for="c-movein">Settlement / move-in date <span class="opt">(optional)</span></label><input id="c-movein" type="text" placeholder="e.g. Friday 17 July"><div class="hint">We'll time the delivery around it.</div></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Your card</legend>
+      <div class="field">
+        <label for="card-msg">Message printed on the card</label>
+        <textarea id="card-msg" maxlength="220" required></textarea>
+        <div class="charcount"><span id="card-count">0</span>/220</div>
+        <div class="err">Every gift needs a card message.</div>
+      </div>
+      <div class="giftcard" style="margin-top:14px">
+        <svg class="sprig" width="46" height="34" viewBox="0 0 46 34" aria-hidden="true">
+          <path d="M8 32c8-2 22-2 30 0" stroke="#2C5A40" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="6.5" fill="#A93A66" opacity=".9"/>
+          <circle cx="26" cy="9" r="5" fill="#C4557F" opacity=".85"/>
+          <circle cx="35" cy="16" r="4.5" fill="#A93A66" opacity=".75"/>
+          <path d="M14 20v10M26 14v14M35 20v7" stroke="#2C5A40" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <div class="msg" id="card-preview"></div>
+        <div class="from" id="card-from">— </div>
+        <div class="brand"><span>Compliments of your agent</span><span>Flowers by Floral Image</span></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>How we'll introduce it on the phone</legend>
+      <div class="field">
+        <textarea id="intro-script" maxlength="400" rows="3"></textarea>
+        <div class="hint">This is what we'll say when we call your client. Edit it if you'd like it said differently.</div>
+      </div>
+    </fieldset>
+
+    <div class="formfoot">
+      <button class="btn" type="submit" id="gift-submit">Send the gift</button>
+      <span class="sending">Logging your gift…</span>
+    </div>
+    <p class="hint" style="margin-top:14px">By sending, you're asking Floral Image Canberra to contact your client to arrange this free delivery on your behalf. No cost to you or them — ever.</p>
+  </form>
+
+  <div class="success" id="gift-success">
+    <h2>Gift logged. Lovely work.</h2>
+    <p id="success-detail">We'll call your client to arrange delivery, and you'll get an email the moment the flowers are in their hands.</p>
+    <p style="margin-top:18px"><button class="btn ghost" type="button" onclick="location.reload()">Gift another client</button></p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap narrow">
+    <strong style="color:var(--ink)">Floral Image Canberra</strong> · Mitchell ACT ·
+    <a href="mailto:canberra@floralimage.com">canberra@floralimage.com</a><br>
+    We phone first · we deliver free · never a hard sell · details never shared.
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="portal.js"></script>
+<script>FIPortal.initGift();</script>
+</body>
+</html>
