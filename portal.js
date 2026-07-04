@@ -208,5 +208,46 @@
     });
   }
 
-  window.FIPortal = { initGift, initSignup };
+  // ---------- referral page ----------
+  function initReferral() {
+    // Prefill referrer from link params (Klaviyo/QR links): ?n=Name&b=Business&e=email
+    const q = new URLSearchParams(location.search);
+    if (q.get("n") && !val("r-name")) $("r-name").value = q.get("n");
+    if (q.get("b") && !val("r-company")) $("r-company").value = q.get("b");
+    if (q.get("e") && !val("r-email")) $("r-email").value = q.get("e");
+    if (!CFG.ENDPOINT) $("refer-offline").hidden = false;
+
+    wireForm($("refer-form"), document.querySelector("#refer-form .btn"), document.querySelector("#refer-form .sending"), {
+      validate() {
+        let ok = true;
+        ok = fieldOk("r-name", !!val("r-name")) && ok;
+        ok = fieldOk("r-company", !!val("r-company")) && ok;
+        ok = fieldOk("r-email", validEmail(val("r-email"))) && ok;
+        ok = fieldOk("f-company", !!val("f-company")) && ok;
+        return ok;
+      },
+      payload() {
+        return {
+          type: "referral",
+          referrer_name: val("r-name"),
+          referrer_company: val("r-company"),
+          referrer_email: val("r-email"),
+          referred_company: val("f-company"),
+          referred_contact: val("f-contact"),
+          referred_phone: val("f-phone"),
+          referred_email: val("f-email"),
+          note: val("f-note"),
+          source: q.get("src") || (q.get("e") || q.get("n") ? "email-link" : "direct"),
+        };
+      },
+      onSuccess() {
+        $("refer-success-detail").textContent =
+          `We'll reach out to ${val("f-company")} this week with a friendly free trial, mention you sent us, and email ${val("r-email")} the moment your free month is locked in.`;
+        $("refer-success").style.display = "block";
+        window.scrollTo({ top: document.getElementById("refer").offsetTop - 20 });
+      },
+    });
+  }
+
+  window.FIPortal = { initGift, initSignup, initReferral };
 })();

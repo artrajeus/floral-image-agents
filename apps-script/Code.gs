@@ -29,6 +29,7 @@ function doPost(e) {
 
     if (data.type === "gift") return handleGift_(data);
     if (data.type === "agent_signup") return handleSignup_(data);
+    if (data.type === "referral") return handleReferral_(data);
     return json_({ ok: false, error: "unknown-type" });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -114,6 +115,53 @@ function handleSignup_(d) {
         p_("We're setting up your personal gifting page now — you'll get your link shortly (usually the same day).") +
         p_("<b>Want your logo on your page and cards?</b> Just reply to this email with a PNG or SVG and we'll have it on there same day.") +
         p_("From then on: log a gift in sixty seconds, we phone your client, hand-deliver designer flowers with your card — free, every time.") +
+        foot_("Floral Image Canberra · Mitchell ACT · canberra@floralimage.com"),
+    });
+  }
+  return json_({ ok: true });
+}
+
+function handleReferral_(d) {
+  var sheet = getTab_("Referrals", [
+    "Received", "Referrer", "Referrer business", "Referrer email",
+    "Referred business", "Referred contact", "Referred phone", "Referred email",
+    "Note", "Source", "Status", "Reward given?",
+  ]);
+  sheet.appendRow([
+    new Date(), d.referrer_name, d.referrer_company, d.referrer_email,
+    d.referred_company, d.referred_contact, d.referred_phone, d.referred_email,
+    d.note, d.source, "NEW", "NO",
+  ]);
+
+  var sheetUrl = SpreadsheetApp.openById(props_().getProperty("SS_ID")).getUrl();
+
+  // 1 — notify Floral Image
+  MailApp.sendEmail({
+    to: NOTIFY_EMAIL,
+    subject: "🌿 New referral — " + d.referrer_company + " → " + d.referred_company,
+    htmlBody:
+      h2_("New referral to chase") +
+      row_("Referrer", d.referrer_name + " · " + d.referrer_company + " · " + d.referrer_email) +
+      row_("Referred business", d.referred_company) +
+      row_("Contact", d.referred_contact || "—") +
+      row_("Phone", d.referred_phone ? '<a href="tel:' + d.referred_phone + '">' + d.referred_phone + "</a>" : "—") +
+      row_("Email", d.referred_email || "—") +
+      row_("Note", d.note || "—") +
+      row_("Source", d.source || "direct") +
+      '<p style="margin-top:16px"><a href="' + sheetUrl + '">Open the Referrals sheet →</a></p>' +
+      foot_("Action: book their free trial + mention " + d.referrer_name + " sent us. When they convert: set Status=WON, credit the free month, set Reward given?=YES."),
+  });
+
+  // 2 — thank the referrer
+  if (validEmail_(d.referrer_email)) {
+    MailApp.sendEmail({
+      to: d.referrer_email,
+      subject: "You beauty — your referral of " + d.referred_company + " is in 🌿",
+      htmlBody:
+        h2_("Thank you, " + (String(d.referrer_name || "").split(" ")[0] || "there") + ".") +
+        p_("Your referral of <b>" + d.referred_company + "</b> just landed with our team.") +
+        p_("<b>What happens next:</b> we'll reach out to them this week with a friendly free trial (and mention you sent us — unless your note says otherwise). The moment they become a client, <b>your next month of flowers is free</b> and you'll get an email confirming it.") +
+        p_("Every referral that joins is another free month for you — there's no cap. Keep them coming.") +
         foot_("Floral Image Canberra · Mitchell ACT · canberra@floralimage.com"),
     });
   }

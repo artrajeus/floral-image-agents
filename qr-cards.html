@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<title>Referral QR Cards — print sheet (A4, 8-up)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 8mm; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: 'Inter', -apple-system, Helvetica, Arial, sans-serif; background: #eee; }
+  .sheet {
+    width: 194mm; margin: 0 auto; background: #fff;
+    display: grid; grid-template-columns: repeat(2, 90mm); grid-auto-rows: 55mm;
+    gap: 4mm; padding: 5mm; justify-content: center;
+  }
+  @media print { body { background: #fff; } .sheet { padding: 0; } .note { display: none; } }
+  .note { text-align: center; font-size: 13px; color: #555; padding: 12px; }
+  .card {
+    width: 90mm; height: 55mm; background: #fbf8f3;
+    border: 1px dashed #c9c2b4; /* cut line */
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .strip { height: 2.6mm; flex: none; background: linear-gradient(90deg,
+    #e8843a 0 12.5%, #f0b840 12.5% 25%, #c8d34a 25% 37.5%, #2dc1a4 37.5% 50%,
+    #5fc8d4 50% 62.5%, #6b9bd2 62.5% 75%, #c47bbf 75% 87.5%, #e25b7a 87.5% 100%); }
+  .inner { flex: 1; display: flex; align-items: center; gap: 4.5mm; padding: 4mm 5mm 3mm; }
+  .txt { flex: 1; min-width: 0; }
+  .txt img { height: 4.2mm; display: block; margin-bottom: 2.6mm; }
+  h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+       font-size: 17.5pt; line-height: 1.02; margin: 0 0 1.8mm; color: #161513; }
+  .txt p { font-size: 7.6pt; line-height: 1.45; color: #3d4238; margin: 0 0 1.6mm; }
+  .url { font-size: 6.4pt; letter-spacing: .04em; color: #2f4a3a; font-weight: 600; }
+  .qrbox { flex: none; text-align: center; }
+  .qrbox img { width: 26mm; height: 26mm; display: block; }
+  .scan { font-size: 6.2pt; color: #5d6257; margin-top: 1.2mm; letter-spacing: .06em; text-transform: uppercase; font-weight: 600; }
+</style>
+</head>
+<body>
+<p class="note">Print on A4 (100% scale, colour). 8 cards per sheet — cut along the dashed lines. Leave one with every monthly refresh.</p>
+<div class="sheet">
+  <!-- 8 identical cards -->
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt="QR code to the referral page"><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt=""><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt=""><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt=""><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt=""><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt=""><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt=""><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+  <div class="card"><div class="strip"></div><div class="inner">
+    <div class="txt">
+      <img src="img/logo-black.png" alt="Floral Image">
+      <h2>Love your flowers?</h2>
+      <p>Give a friend's office a <b>free month</b> of designer flowers — and get a <b>free month</b> yourself when they join.</p>
+      <div class="url">floralimage.com · Canberra</div>
+    </div>
+    <div class="qrbox"><img src="img/qr-refer.svg" alt=""><div class="scan">Scan · 30 sec</div></div>
+  </div></div>
+</div>
+</body>
+</html>
