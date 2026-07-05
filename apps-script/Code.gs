@@ -242,7 +242,9 @@ function checkPin_(d) { return String(d.pin || "") === DASH_PIN; }
 
 function handleTaskList_(d) {
   if (!checkPin_(d)) return json_({ ok: false, error: "bad-pin" });
-  var rows = tasksSheet_().getDataRange().getValues();
+  var sheet = tasksSheet_();
+  var sheetUrl = sheet.getParent().getUrl();
+  var rows = sheet.getDataRange().getValues();
   var tasks = [];
   for (var i = 1; i < rows.length; i++) {
     if (!rows[i][0]) continue;
@@ -252,7 +254,7 @@ function handleTaskList_(d) {
       done_by: rows[i][5], done_at: rows[i][6] ? new Date(rows[i][6]).toISOString() : "",
     });
   }
-  return json_({ ok: true, tasks: tasks });
+  return json_({ ok: true, tasks: tasks, sheet_url: sheetUrl });
 }
 
 function handleTaskToggle_(d) {

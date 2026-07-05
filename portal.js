@@ -263,10 +263,13 @@
     return res.json();
   }
 
-  function initDashboard() {
+  async function initDashboard() {
     if (!CFG.ENDPOINT) { $("dash-offline").hidden = false; return; }
     const saved = { pin: localStorage.getItem("fi_pin") || "", who: localStorage.getItem("fi_who") || "Aaron" };
     let tasks = [];
+    let sheetUrl = "";
+    let META = {};
+    try { META = await (await fetch("task-meta.json", { cache: "no-store" })).json(); } catch (_) {}
 
     const pct = (d, t) => (t ? Math.round((d / t) * 100) : 0);
     const chipClass = (o) => ({ aaron: "aaron", sam: "sam", claude: "claude" }[String(o).toLowerCase()] || "team");
@@ -295,14 +298,44 @@
         list.forEach((t) => {
           const li = document.createElement("li");
           li.className = t.done ? "done" : "";
-          const meta = t.done && t.done_by ? `<div class="task-meta">done by ${t.done_by}${t.done_at ? " · " + new Date(t.done_at).toLocaleDateString("en-AU", { day: "numeric", month: "short" }) : ""}</div>` : "";
+          const doneMeta = t.done && t.done_by ? `<div class="task-meta">done by ${t.done_by}${t.done_at ? " · " + new Date(t.done_at).toLocaleDateString("en-AU", { day: "numeric", month: "short" }) : ""}</div>` : "";
+          const m = META[t.id] || {};
+          const brief = m.brief || (META._default && META._default.brief) || "";
+          const promptTpl = m.prompt || (META._default && META._default.prompt) || "";
+          const prompt = promptTpl.replace("{TASK}", t.task);
+          const link = m.sheet ? sheetUrl : m.link || "";
+          const linkLabel = m.linkLabel || "Open resource";
           li.innerHTML = `
             <button class="tick" role="checkbox" aria-checked="${t.done}" aria-label="Mark '${t.task.replace(/'/g, "&#39;")}' ${t.done ? "not done" : "done"}">
               <svg width="14" height="11" viewBox="0 0 14 11" aria-hidden="true"><path d="M1 5.5 5 9.5 13 1.5" stroke="#fbf8f3" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="task-txt">${t.task}${meta}</div>
+            <div class="task-body">
+              <button class="task-open" aria-expanded="false"><span class="task-txt">${t.task}</span><svg class="chev" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              ${doneMeta}
+              <div class="task-detail" hidden>
+                ${brief ? `<p class="brief">${brief}</p>` : ""}
+                <div class="detail-actions">
+                  ${link ? `<a class="btn mini" href="${link}" target="_blank" rel="noopener">${linkLabel} ↗</a>` : ""}
+                  ${prompt ? `<button class="btn mini ghost copy-prompt" type="button">Copy prompt for Claude</button>` : ""}
+                </div>
+              </div>
+            </div>
             <span class="chip ${chipClass(t.owner)}">${t.owner}</span>`;
           li.querySelector(".tick").addEventListener("click", () => toggle(t));
+          li.querySelector(".task-open").addEventListener("click", (e) => {
+            const d = li.querySelector(".task-detail");
+            d.hidden = !d.hidden;
+            e.currentTarget.setAttribute("aria-expanded", String(!d.hidden));
+            li.classList.toggle("expanded", !d.hidden);
+          });
+          const cp = li.querySelector(".copy-prompt");
+          if (cp) cp.addEventListener("click", async () => {
+            try {
+              await navigator.clipboard.writeText(prompt);
+              cp.textContent = "Copied — paste into Claude Code";
+              setTimeout(() => { cp.textContent = "Copy prompt for Claude"; }, 2500);
+            } catch (_) { window.prompt("Copy this prompt:", prompt); }
+          });
           ul.appendChild(li);
         });
         $("phases").appendChild(sec);
@@ -327,6 +360,7 @@
       const r = await api({ type: "task_list", pin });
       if (!r.ok) throw new Error(r.error || "load-failed");
       tasks = r.tasks;
+      sheetUrl = r.sheet_url || sheetUrl;
       saved.pin = pin; saved.who = who;
       localStorage.setItem("fi_pin", pin); localStorage.setItem("fi_who", who);
       $("gate").hidden = true; $("dash").hidden = false;

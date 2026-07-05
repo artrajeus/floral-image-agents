@@ -1,0 +1,144 @@
+{
+  "_default": {
+    "brief": "No playbook attached to this task yet — ask Claude to plan and run it.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md for full Floral Image Canberra context. Then help me complete this growth-plan task: \"{TASK}\". Plan it, build whatever is needed, and tell me exactly what you need from me."
+  },
+  "t1": {
+    "brief": "DONE 5 Jul — backend deployed via clasp under artrajeus@gmail.com. Future code changes ship with clasp push + create-deployment (no more pasting).",
+    "link": "https://script.google.com/d/1_0cbYL5KWZlJUuVd2TlI1MDc_IZbolrY6ruqMxn0ndDJi98hIPpoW-GP/edit",
+    "linkLabel": "Open Apps Script"
+  },
+  "t2": {
+    "brief": "DONE 5 Jul — live endpoint wired into config.js and deployed to GitHub Pages.",
+    "link": "https://github.com/artrajeus/floral-image-agents",
+    "linkLabel": "Open repo"
+  },
+  "t3": {
+    "brief": "DONE 5 Jul — test gift fired both emails, Sheet created, dashboard live.",
+    "link": "https://artrajeus.github.io/floral-image-agents/gift.html?a=demo",
+    "linkLabel": "Open gift form"
+  },
+  "t4": {
+    "brief": "Sam: the repo is the source of truth. Edit styles.css / the four HTML pages, then run ./deploy.sh — live in ~1 minute. Design system: Cormorant Garamond + Inter, cream #fbf8f3, forest #2f4a3a, mosaic ribbon.",
+    "link": "https://github.com/artrajeus/floral-image-agents",
+    "linkLabel": "Open repo",
+    "prompt": "Read ~/floral-image-agents/README.md and ~/floral-image-canberra/HANDOFF.md. I'm doing design tweaks on the Floral Image agent portal pages (index.html, gift.html, refer.html, dashboard.html). Help me make the following changes, then deploy with ./deploy.sh: "
+  },
+  "t5": {
+    "brief": "A one-page PDF that sells the gifting program to agencies: the offer, the co-branded card, the promises (call first, never a hard sell), QR to the landing page. Claude builds it in the house style.",
+    "link": "https://artrajeus.github.io/floral-image-agents/",
+    "linkLabel": "See the landing page",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Build the agent pitch one-pager PDF for the Floral Image settlement-gifting program (task: agent pitch one-pager). House design system, A4, print-ready, QR to https://artrajeus.github.io/floral-image-agents/ — same stack as qr-cards.html → PDF via headless Chrome."
+  },
+  "t6": {
+    "brief": "Start with property managers (recurring lease events) + the 56 real-estate contacts already in Klaviyo. Pitch: free move-in gifts, zero cost, their brand on the card. Send them the landing page; we build their agency page same day.",
+    "link": "https://artrajeus.github.io/floral-image-agents/",
+    "linkLabel": "Landing page to send",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Help me recruit the first 10 real-estate agents for the gifting portal: draft the outreach email/DM using the live landing page, build a Canberra agency/property-manager hit list, and prep the Klaviyo send to the existing Real Estate segment (56 contacts)."
+  },
+  "t7": {
+    "brief": "When the first real gift request lands (email + Gifts tab), call the client, schedule delivery, set Status to SCHEDULED → DELIVERED in the Sheet.",
+    "linkLabel": "Open the Sheet",
+    "sheet": true
+  },
+  "t8": {
+    "brief": "Scale from the pilot: add every new agent with ./add-agent.sh (their logo goes live same day). Aim: 25 by October → ~40 gifts/month.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Help me scale agent recruitment for the gifting portal from 10 to 25 agents: draft the follow-up sequence for agents who signed up, an agency-principal pitch, and a tracker of who's onboarded vs pending."
+  },
+  "t9": {
+    "brief": "The campaign is drafted in Klaviyo with the branded template, aimed at your 2026 corporate clients list. Review the email, send a test to yourself, then hit Send (or schedule Tue/Wed ~10am).",
+    "link": "https://www.klaviyo.com/campaign/01KWP3FFNHQCM6SF4JVY04XFEX/wizard",
+    "linkLabel": "Open the draft in Klaviyo"
+  },
+  "t10": {
+    "brief": "Print the A4 sheet (8 cards per page, colour, 100% scale), guillotine along the dashed lines. ~60 sheets = a month of refreshes.",
+    "link": "https://artrajeus.github.io/floral-image-agents/qr-cards.pdf",
+    "linkLabel": "Open the print PDF"
+  },
+  "t11": {
+    "brief": "Two-minute team huddle: one card goes with every monthly refresh, placed with the arrangement. The QR opens the referral page — every referral that joins earns the client a free month.",
+    "link": "https://artrajeus.github.io/floral-image-agents/refer.html",
+    "linkLabel": "Show them the page"
+  },
+  "t12": {
+    "brief": "A Klaviyo flow that emails each client the day after their monthly refresh: 'Fresh flowers just landed — know an office that'd love this?' Needs a refresh-date property or event feed; Claude designs it once we agree the trigger.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Design and build the post-refresh referral moment flow in Klaviyo (System 1): agree the trigger with me (refresh-date property vs event), then create the flow email using the referral template style, linking to refer.html with the client's email prefilled."
+  },
+  "t13": {
+    "brief": "Watch the Referrals tab + notification emails. When one lands: contact the referred business within 48h, book their free trial, mention who sent us.",
+    "linkLabel": "Open the Sheet",
+    "sheet": true
+  },
+  "t14": {
+    "brief": "Drafted in Klaviyo, aimed at the 5,441 disengaged (no opens in 180d). One click keeps them; silence = suppression later. Send any weekday morning.",
+    "link": "https://www.klaviyo.com/campaign/01KWP3H7TEM6TMRBAT18AFB613/wizard",
+    "linkLabel": "Open the draft in Klaviyo"
+  },
+  "t15": {
+    "brief": "14 days after the sunset send: suppress everyone in the segment who still hasn't clicked. Claude runs this — just tell him the sunset send date.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. The Sunset campaign was sent on [DATE]. It's now 14+ days later: build the suppression list (segment VU3Zqv members with no click since the send) and suppress them in Klaviyo, reporting how many were kept vs suppressed."
+  },
+  "t16": {
+    "brief": "~$80 one-off: run the whole database through ZeroBounce/NeverBounce before any big corporate sends — the June sends bounced 20-30%, which poisons deliverability. Aaron pays, Claude runs the export/import.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. I've signed up for an email validation service ([which one]). Walk me through exporting the Klaviyo profiles, run the validation, and suppress/clean the invalid addresses when results are back."
+  },
+  "t17": {
+    "brief": "The Corporate and Home welcome series have been in draft since 2022. Claude rebuilds them (4 emails each, house template) and wires the triggers.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Rebuild the Corporate Welcome and Home Market Welcome flows in Klaviyo (Email foundation): 4 emails each in the house template style, propose triggers and timing, create everything as drafts for my review."
+  },
+  "t18": {
+    "brief": "Wire Klaviyo events from every page: Submitted Form → Trial Booked → Paid Signup with $ value — so every email finally reports revenue. Needs a Klaviyo private API key added to the Apps Script.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Wire conversion tracking (F3): add Klaviyo Track API calls to the Apps Script backend for gift/referral/signup events, and plan the Trial Booked / Paid Signup events for the $22 funnel. I'll paste a Klaviyo private API key when you're ready."
+  },
+  "t19": {
+    "brief": "The $22 trial needs card-on-file continuation. Stripe Payment Link is the recommendation (simplest card-on-file + saved payment method). Decide, create the account/link, and the funnel build unblocks.",
+    "link": "https://stripe.com/au/payments/payment-links",
+    "linkLabel": "Stripe Payment Links",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. I've chosen [Stripe/Square] for the $22 trial. Walk me through the exact setup (product, payment link, card-on-file for day-14 continuation), then start building the trial landing page against it."
+  },
+  "t20": {
+    "brief": "The next big build: 'Two weeks of $100 designer flowers. $22.' Landing page on the portal stack + payment link + tier picker. Blocked only by the payment-rail decision (t19).",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Build the $22 two-week trial landing page (System 3, funnel A): house design system, hero with real photos, 3-step how-it-works, tier picker ($147/$197/$247 + add-ons), Trustpilot strip, FAQ, payment link integration, Klaviyo events. Payment rail: [Stripe/Square + link]."
+  },
+  "t21": {
+    "brief": "Day 0 confirmation → day 3 styling tips → day 9 continuation + Duo upsell → day 13 last call → day 14 charge-or-collect. Claude builds it in Klaviyo once the trial page exists.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Build the post-trial email sequence (day 0/3/9/13/14) in Klaviyo for the $22 trial funnel, using the house email template style. Create as drafts and show me each email."
+  },
+  "t22": {
+    "brief": "Link the Higgsfield connector in your claude.ai settings so Claude can generate the ad creative set directly.",
+    "link": "https://claude.ai/settings/connectors",
+    "linkLabel": "Open connector settings"
+  },
+  "t23": {
+    "brief": "Five concepts are already specced: The Reveal, 'Two Weeks $22' price-anchor, the wilting-flowers Gag, Proof carousel (1,400+ reviews), Swap Day. Claude generates them via Higgsfield once connected.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Higgsfield is now connected — generate the 5-concept ad creative set for the $22 home trial (System 3 brief in STRATEGY.md): 4:5 and 9:16 for each, real arrangement photos composited, single CTA 'Get 2 weeks for $22'."
+  },
+  "t24": {
+    "brief": "Meta structure: creative-testing campaign → conversion campaign optimised to trial purchases → retargeting + lookalike of home clients. $40/day to start. Needs creative (t23) + landing page (t20) live.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. The $22 trial page and creatives are ready — help me set up the Meta campaign structure (testing → conversion → retargeting, $40/day, Canberra +25km), including the pixel/CAPI events for trial purchases."
+  },
+  "t25": {
+    "brief": "Publish the three-tier ladder: Seasonal One $147 / Seasonal Fresh $197 / Seasonal Duo $247, +$50 second arrangement, +$79 Swap Pack. Needs a page or price list — Claude builds it wherever your seasonal customers look.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Build the Seasonal Selection tier page ($147/$197/$247 + add-ons) — decide with me where it lives (portal site page vs printable price card vs both) and build it in the house style."
+  },
+  "t26": {
+    "brief": "After validation (t16): 3-touch win-back per vertical with a case study and one CTA — book a free trial week. Claude drafts all sequences for review.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. The list validation is done — build corporate win-back wave 1: vertical-specific 3-touch sequences (medical, legal, accounting, RE, schools) as Klaviyo drafts, single CTA to book a free trial week."
+  },
+  "t27": {
+    "brief": "Automated anniversary email to each active client: 12 months for the price of 11 if they prepay. Needs a start-date/anniversary property on profiles.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Build the anniversary prepay flow (12-for-11) in Klaviyo: agree the anniversary data source with me, then create the flow + email as drafts."
+  },
+  "t28": {
+    "brief": "Target single-arrangement clients with big foyers: 'reception + boardroom' bundle. Drivers flag candidates; a triggered email follows.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Build the second-arrangement upsell push: the driver flag process (how they mark candidates), the Klaviyo segment/property, and the upsell email as a draft."
+  },
+  "t29": {
+    "brief": "Claude assumed ~$75/mo ARPU and ~1%/mo churn in the FY27 model — replace with your real numbers so the targets and dashboards are honest.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Here are the real numbers — corporate ARPU: $[X]/mo, monthly churn: [Y]%, true active client count: [Z]. Update STRATEGY.md, the revenue model, and the growth-plan artifact to match."
+  },
+  "t30": {
+    "brief": "Proposed: ~$1,200/mo Meta + ~$500/mo Google + $80 one-off validation. Green-light or adjust — the ads tasks wait on this.",
+    "prompt": "Read ~/floral-image-canberra/HANDOFF.md. Ad budget decision: I'm approving $[X]/mo Meta and $[Y]/mo Google. Note it in the strategy and let's sequence the ad launch accordingly."
+  }
+}
