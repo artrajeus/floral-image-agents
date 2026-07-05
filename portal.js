@@ -249,5 +249,126 @@
     });
   }
 
-  window.FIPortal = { initGift, initSignup, initReferral };
+  // ---------- growth dashboard ----------
+  const PHASE_ORDER = ["Backend live", "RE gifting portal", "Referral engine", "Email foundation", "Home market", "Win-back & expansion", "Decisions", "General"];
+
+  async function api(payload) {
+    if (!CFG.ENDPOINT) throw new Error("no-endpoint");
+    const res = await fetch(CFG.ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      redirect: "follow",
+    });
+    return res.json();
+  }
+
+  function initDashboard() {
+    if (!CFG.ENDPOINT) { $("dash-offline").hidden = false; return; }
+    const saved = { pin: localStorage.getItem("fi_pin") || "", who: localStorage.getItem("fi_who") || "Aaron" };
+    let tasks = [];
+
+    const pct = (d, t) => (t ? Math.round((d / t) * 100) : 0);
+    const chipClass = (o) => ({ aaron: "aaron", sam: "sam", claude: "claude" }[String(o).toLowerCase()] || "team");
+
+    function render() {
+      const doneN = tasks.filter((t) => t.done).length;
+      $("total-pct").textContent = pct(doneN, tasks.length) + "%";
+      $("total-count").textContent = doneN + " of " + tasks.length + " done";
+      $("total-bar").style.width = pct(doneN, tasks.length) + "%";
+      $("whoami").textContent = "Ticking as " + saved.who + " · ";
+
+      const phases = [...new Set([...PHASE_ORDER.filter((p) => tasks.some((t) => t.phase === p)), ...tasks.map((t) => t.phase)])];
+      $("phases").innerHTML = "";
+      $("add-phase").innerHTML = phases.map((p) => `<option>${p}</option>`).join("");
+      phases.forEach((phase) => {
+        const list = tasks.filter((t) => t.phase === phase);
+        if (!list.length) return;
+        const d = list.filter((t) => t.done).length;
+        const sec = document.createElement("div");
+        sec.className = "phase";
+        sec.innerHTML = `
+          <div class="phase-head"><h2>${phase}</h2><span class="count">${d}/${list.length}</span></div>
+          <div class="bar"><span style="width:${pct(d, list.length)}%"></span></div>
+          <ul class="tasks"></ul>`;
+        const ul = sec.querySelector("ul");
+        list.forEach((t) => {
+          const li = document.createElement("li");
+          li.className = t.done ? "done" : "";
+          const meta = t.done && t.done_by ? `<div class="task-meta">done by ${t.done_by}${t.done_at ? " · " + new Date(t.done_at).toLocaleDateString("en-AU", { day: "numeric", month: "short" }) : ""}</div>` : "";
+          li.innerHTML = `
+            <button class="tick" role="checkbox" aria-checked="${t.done}" aria-label="Mark '${t.task.replace(/'/g, "&#39;")}' ${t.done ? "not done" : "done"}">
+              <svg width="14" height="11" viewBox="0 0 14 11" aria-hidden="true"><path d="M1 5.5 5 9.5 13 1.5" stroke="#fbf8f3" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="task-txt">${t.task}${meta}</div>
+            <span class="chip ${chipClass(t.owner)}">${t.owner}</span>`;
+          li.querySelector(".tick").addEventListener("click", () => toggle(t));
+          ul.appendChild(li);
+        });
+        $("phases").appendChild(sec);
+      });
+    }
+
+    async function toggle(t) {
+      t.done = !t.done;
+      t.done_by = t.done ? saved.who : "";
+      t.done_at = t.done ? new Date().toISOString() : "";
+      render(); // optimistic
+      try {
+        const r = await api({ type: "task_toggle", id: t.id, done: t.done, who: saved.who, pin: saved.pin });
+        if (!r.ok) throw new Error(r.error);
+      } catch (e) {
+        t.done = !t.done; render();
+        alert("Couldn't save that tick — check your connection and try again.");
+      }
+    }
+
+    async function load(pin, who) {
+      const r = await api({ type: "task_list", pin });
+      if (!r.ok) throw new Error(r.error || "load-failed");
+      tasks = r.tasks;
+      saved.pin = pin; saved.who = who;
+      localStorage.setItem("fi_pin", pin); localStorage.setItem("fi_who", who);
+      $("gate").hidden = true; $("dash").hidden = false;
+      render();
+    }
+
+    $("gate-go").addEventListener("click", async () => {
+      const err = $("dash-error");
+      err.style.display = "none";
+      try {
+        await load($("gate-pin").value.trim(), $("gate-who").value);
+      } catch (e) {
+        err.textContent = e.message === "bad-pin" ? "That's not the team PIN — check with Aaron." : "Couldn't reach the dashboard backend. Try again in a moment.";
+        err.style.display = "block";
+      }
+    });
+    $("gate-pin").addEventListener("keydown", (e) => { if (e.key === "Enter") $("gate-go").click(); });
+
+    $("refresh-btn").addEventListener("click", () => load(saved.pin, saved.who).catch(() => alert("Refresh failed — try again.")));
+
+    $("add-btn").addEventListener("click", async () => {
+      const txt = $("add-task").value.trim();
+      if (!txt) return;
+      $("add-btn").disabled = true;
+      try {
+        const r = await api({ type: "task_add", task: txt, phase: $("add-phase").value, owner: $("add-owner").value, pin: saved.pin });
+        if (!r.ok) throw new Error(r.error);
+        tasks.push({ id: r.id, phase: $("add-phase").value, task: txt, owner: $("add-owner").value, done: false, done_by: "", done_at: "" });
+        $("add-task").value = "";
+        render();
+      } catch (e) {
+        alert("Couldn't add that task — try again.");
+      } finally { $("add-btn").disabled = false; }
+    });
+
+    // auto-open if PIN already saved on this device
+    if (saved.pin) {
+      load(saved.pin, saved.who).catch(() => { $("gate").hidden = false; });
+    } else {
+      $("gate").hidden = false;
+    }
+  }
+
+  window.FIPortal = { initGift, initSignup, initReferral, initDashboard };
 })();

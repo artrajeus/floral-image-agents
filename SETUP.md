@@ -33,6 +33,10 @@ Open `https://artrajeus.github.io/floral-image-agents/gift.html?a=demo`, submit 
 - ✅ the agent email you entered got the confirmation
 - ✅ a sheet named **"Floral Image Canberra — Agent Gifts"** appeared in the deploying account's Google Drive with the row in the **Gifts** tab
 
+## The team dashboard
+
+The same deployment also powers **https://artrajeus.github.io/floral-image-agents/dashboard.html** — the shared FY27 checklist for you and Sam. Team PIN is `flowers26` (change `DASH_PIN` at the top of Code.gs before deploying if you want a different one). The first time anyone opens it, the full 30-task plan is seeded into a "Tasks" tab of the same Google Sheet — tick things off from any device, everyone sees the same state.
+
 ## Later changes
 
 If you ever edit `Code.gs`, re-paste it and use **Deploy → Manage deployments → ✏️ → Version: New version → Deploy** (the URL stays the same).

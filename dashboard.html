@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Growth Dashboard — Floral Image Canberra</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='12' r='8' fill='%232C5A40'/%3E%3Crect x='14.5' y='18' width='3' height='11' rx='1.5' fill='%232C5A40'/%3E%3C/svg%3E">
+<style>
+  .dash-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:34px 0 8px}
+  .dash-head h1{font-size:clamp(30px,4.5vw,42px);margin:0}
+  .progress-hero{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:18px 0 30px}
+  .bar{height:10px;background:var(--euc-soft);border-radius:999px;overflow:hidden}
+  .bar>span{display:block;height:100%;background:var(--euc);border-radius:999px;transition:width .4s ease}
+  .progress-hero .nums{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+  .progress-hero .pct{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--euc)}
+  .phase{margin:26px 0}
+  .phase-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+  .phase-head h2{font-size:24px;margin:0}
+  .phase-head .count{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .phase .bar{height:5px;margin-bottom:12px}
+  ul.tasks{list-style:none;margin:0;padding:0}
+  ul.tasks li{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin-bottom:8px}
+  ul.tasks li.done{background:var(--euc-soft);border-color:transparent}
+  .tick{flex:none;width:24px;height:24px;border:2px solid var(--euc);border-radius:7px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+  li.done .tick{background:var(--euc)}
+  .tick svg{opacity:0}
+  li.done .tick svg{opacity:1}
+  .task-txt{flex:1;font-size:15px;line-height:1.45}
+  li.done .task-txt{text-decoration:line-through;color:var(--muted)}
+  .task-meta{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .chip{flex:none;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 10px;margin-top:2px}
+  .chip.aaron{background:#f8ecd2;color:#6b4a12}
+  .chip.sam{background:#f3dbe5;color:#8c2f55}
+  .chip.claude{background:var(--euc-soft);color:var(--euc)}
+  .chip.team{background:#e3e8f2;color:#3d5580}
+  .addbox{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px;background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:14px}
+  .addbox input[type=text]{flex:2;min-width:200px}
+  .addbox select{flex:1;min-width:120px;padding:11px 10px;font-size:14px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-family:var(--sans)}
+  .gate{max-width:420px;margin:60px auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:34px}
+  .gate h1{font-size:30px}
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .toolbar .btn{padding:9px 18px;font-size:14px}
+  .whoami{font-size:13px;color:var(--muted)}
+  #dash-error{color:#a3402a;font-size:14px;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="wordmark" href="dashboard.html"><img src="img/logo-black.png" alt="Floral Image"><small>CANBERRA</small></a>
+    <span class="topnote">FY27 growth dashboard</span>
+  </div>
+</div>
+<div class="mosaic" aria-hidden="true"></div>
+
+<div class="wrap narrow">
+
+  <div class="banner-warn" id="dash-offline" hidden>The dashboard isn't connected yet — it goes live the moment the backend from <b>SETUP.md</b> is deployed and wired into <b>config.js</b>.</div>
+
+  <!-- PIN gate -->
+  <div class="gate" id="gate" hidden>
+    <span class="eyebrow">Team access</span>
+    <h1>Growth dashboard</h1>
+    <p style="font-size:15px;color:var(--muted)">Enter the team PIN and pick who you are — ticks get credited to you.</p>
+    <label for="gate-pin">Team PIN</label>
+    <input id="gate-pin" type="text" inputmode="text" autocomplete="off">
+    <label for="gate-who">You are</label>
+    <select id="gate-who" style="width:100%;padding:11px 13px;font-size:16px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-family:var(--sans)">
+      <option>Aaron</option><option>Sam</option><option>Team</option>
+    </select>
+    <div id="dash-error"></div>
+    <p style="margin-top:18px"><button class="btn" id="gate-go">Open dashboard</button></p>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dash" hidden>
+    <div class="dash-head">
+      <h1>The plan, ticking over.</h1>
+      <div class="toolbar">
+        <span class="whoami" id="whoami"></span>
+        <button class="btn ghost" id="refresh-btn" type="button">Refresh</button>
+      </div>
+    </div>
+    <div class="progress-hero">
+      <div class="nums"><span class="pct" id="total-pct">0%</span><span class="count" id="total-count" style="color:var(--muted);font-size:14px"></span></div>
+      <div class="bar"><span id="total-bar" style="width:0%"></span></div>
+    </div>
+    <div id="phases"></div>
+    <div class="addbox">
+      <input type="text" id="add-task" placeholder="Add a task…" maxlength="200">
+      <select id="add-phase"></select>
+      <select id="add-owner"><option>Aaron</option><option>Sam</option><option>Claude</option><option selected>Team</option></select>
+      <button class="btn" id="add-btn" type="button">Add</button>
+    </div>
+    <p class="hint" style="margin-top:14px">Everything here lives in the "Tasks" tab of the <b>Floral Image Canberra — Agent Gifts</b> Google Sheet — edit there or here, same list. PIN is set in the Apps Script (<span style="font-family:monospace">DASH_PIN</span>).</p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap narrow">
+    <strong style="color:var(--ink)">Floral Image Canberra</strong> · FY2026-27 growth plan ·
+    <a href="index.html">agent portal</a> · <a href="refer.html">referrals</a>
+  </div>
+</footer>
+
+<script src="config.js?v=2"></script>
+<script src="portal.js"></script>
+<script>FIPortal.initDashboard();</script>
+</body>
+</html>

@@ -14,6 +14,7 @@
 var NOTIFY_EMAIL = "canberra@floralimage.com";
 var SHEET_NAME = "Floral Image Canberra — Agent Gifts";
 var MAX_LEN = 500; // hard cap on any single field
+var DASH_PIN = "flowers26"; // shared PIN for the growth dashboard — change it here if you like
 
 // ---------------------------------------------------------------- entrypoints
 
@@ -30,6 +31,9 @@ function doPost(e) {
     if (data.type === "gift") return handleGift_(data);
     if (data.type === "agent_signup") return handleSignup_(data);
     if (data.type === "referral") return handleReferral_(data);
+    if (data.type === "task_list") return handleTaskList_(data);
+    if (data.type === "task_toggle") return handleTaskToggle_(data);
+    if (data.type === "task_add") return handleTaskAdd_(data);
     return json_({ ok: false, error: "unknown-type" });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -166,6 +170,104 @@ function handleReferral_(d) {
     });
   }
   return json_({ ok: true });
+}
+
+// ---------------------------------------------------------------- dashboard
+
+var TASK_HEADERS = ["ID", "Phase", "Task", "Owner", "Done", "Done by", "Done at", "Added"];
+
+// Seeded once, the first time the dashboard loads. After that the Sheet is the
+// single source of truth — add/edit/reorder rows there or from the dashboard.
+var SEED_TASKS = [
+  ["Backend live", "Deploy this Apps Script + paste the /exec URL into config.js", "Aaron"],
+  ["Backend live", "Wire ENDPOINT, bump cache-buster to v=3, redeploy site", "Claude"],
+  ["Backend live", "End-to-end test: gift + referral + dashboard tick", "Claude"],
+  ["RE gifting portal", "Design tweaks on portal pages", "Sam"],
+  ["RE gifting portal", "Agent pitch one-pager PDF", "Claude"],
+  ["RE gifting portal", "Recruit first 10 agents / property managers", "Aaron"],
+  ["RE gifting portal", "First real gift delivered", "Team"],
+  ["RE gifting portal", "25 agents onboard", "Aaron"],
+  ["Referral engine", "Send 'Referral Launch' Klaviyo campaign (draft ready)", "Aaron"],
+  ["Referral engine", "Print QR referral cards (qr-cards.pdf)", "Aaron"],
+  ["Referral engine", "Brief drivers: leave a card with every refresh", "Aaron"],
+  ["Referral engine", "Post-refresh referral moment flow in Klaviyo", "Claude"],
+  ["Referral engine", "First referral submitted", "Team"],
+  ["Email foundation", "Send 'Sunset' campaign to 5,441 disengaged (draft ready)", "Aaron"],
+  ["Email foundation", "Suppress sunset non-responders (14 days after send)", "Claude"],
+  ["Email foundation", "Email list validation pass (~$80)", "Aaron"],
+  ["Email foundation", "Rebuild + switch on Corporate & Home welcome flows", "Claude"],
+  ["Email foundation", "Conversion events wired: Submitted Form → Trial → Paid Signup", "Claude"],
+  ["Home market", "Decide payment rail: Stripe vs Square ($22 trial)", "Aaron"],
+  ["Home market", "Build $22 two-week trial landing page", "Claude"],
+  ["Home market", "Post-trial email sequence (day 0/3/9/13/14)", "Claude"],
+  ["Home market", "Link Higgsfield connector for ad creative", "Aaron"],
+  ["Home market", "Ad creative set (5 concepts)", "Claude"],
+  ["Home market", "Meta campaign live at $40/day", "Team"],
+  ["Home market", "Seasonal tier ladder priced + published ($147/$197/$247)", "Aaron"],
+  ["Win-back & expansion", "Corporate win-back wave 1 (after validation)", "Claude"],
+  ["Win-back & expansion", "Anniversary prepay flow (12 for 11)", "Claude"],
+  ["Win-back & expansion", "Second-arrangement upsell push", "Claude"],
+  ["Decisions", "Confirm corporate ARPU + monthly churn numbers", "Aaron"],
+  ["Decisions", "Ad budget sign-off (~$1,200/mo Meta + $500/mo Google)", "Aaron"],
+];
+
+function tasksSheet_() {
+  var ss = getSpreadsheet_();
+  var sheet = ss.getSheetByName("Tasks");
+  if (!sheet) {
+    sheet = ss.insertSheet("Tasks");
+    sheet.appendRow(TASK_HEADERS);
+    sheet.getRange(1, 1, 1, TASK_HEADERS.length).setFontWeight("bold").setBackground("#E7EEE8");
+    sheet.setFrozenRows(1);
+    var now = new Date();
+    SEED_TASKS.forEach(function (t, i) {
+      sheet.appendRow(["t" + (i + 1), t[0], t[1], t[2], "NO", "", "", now]);
+    });
+    props_().setProperty("TASK_COUNTER", String(SEED_TASKS.length));
+  }
+  return sheet;
+}
+
+function checkPin_(d) { return String(d.pin || "") === DASH_PIN; }
+
+function handleTaskList_(d) {
+  if (!checkPin_(d)) return json_({ ok: false, error: "bad-pin" });
+  var rows = tasksSheet_().getDataRange().getValues();
+  var tasks = [];
+  for (var i = 1; i < rows.length; i++) {
+    if (!rows[i][0]) continue;
+    tasks.push({
+      id: String(rows[i][0]), phase: rows[i][1], task: rows[i][2], owner: rows[i][3],
+      done: String(rows[i][4]).toUpperCase() === "YES",
+      done_by: rows[i][5], done_at: rows[i][6] ? new Date(rows[i][6]).toISOString() : "",
+    });
+  }
+  return json_({ ok: true, tasks: tasks });
+}
+
+function handleTaskToggle_(d) {
+  if (!checkPin_(d)) return json_({ ok: false, error: "bad-pin" });
+  var sheet = tasksSheet_();
+  var rows = sheet.getDataRange().getValues();
+  for (var i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]) === String(d.id)) {
+      var done = !!d.done;
+      sheet.getRange(i + 1, 5, 1, 3).setValues([[done ? "YES" : "NO", done ? (d.who || "") : "", done ? new Date() : ""]]);
+      return json_({ ok: true });
+    }
+  }
+  return json_({ ok: false, error: "task-not-found" });
+}
+
+function handleTaskAdd_(d) {
+  if (!checkPin_(d)) return json_({ ok: false, error: "bad-pin" });
+  if (!d.task) return json_({ ok: false, error: "empty-task" });
+  var sheet = tasksSheet_();
+  var n = Number(props_().getProperty("TASK_COUNTER") || sheet.getLastRow()) + 1;
+  props_().setProperty("TASK_COUNTER", String(n));
+  var id = "t" + n;
+  sheet.appendRow([id, d.phase || "General", d.task, d.owner || "Team", "NO", "", "", new Date()]);
+  return json_({ ok: true, id: id });
 }
 
 // ---------------------------------------------------------------- plumbing
