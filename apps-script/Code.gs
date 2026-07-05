@@ -16,6 +16,16 @@ var SHEET_NAME = "Floral Image Canberra — Agent Gifts";
 var MAX_LEN = 500; // hard cap on any single field
 var DASH_PIN = "flowers26"; // shared PIN for the growth dashboard — change it here if you like
 
+/**
+ * RUN ME ONCE from the editor (Run ▸ authorize) to grant permissions,
+ * create the Google Sheet, and seed the 30-task growth dashboard.
+ */
+function authorize() {
+  tasksSheet_(); // creates the Sheet + seeds dashboard tasks (Sheets permission)
+  var quota = MailApp.getRemainingDailyQuota(); // touches the email permission
+  Logger.log("All good — Sheet ready, email quota today: " + quota);
+}
+
 // ---------------------------------------------------------------- entrypoints
 
 function doGet() {
