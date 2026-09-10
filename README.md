@@ -11,6 +11,8 @@ Free welcome-flowers gifting for Canberra real-estate agents. Agents log a gift 
 | `index.html` | Marketing page that sells the program to agents + "get your link" signup form |
 | `gift.html?a=<slug>` | The per-agent gift submission page (logo + prefill from `agents.json`) |
 | `refer.html` | **Client referral page** — "Give a month, get a month" (prefill via `?n=&b=&e=`, source via `?src=`) |
+| `welcome-back.html` | **Win-back landing page** — reads `?i=<industry>&s=<suburb>&b=&n=` and shows current clients in the same industry + suburb, then the free six-week trial form. See `WINBACK.md`. |
+| `winback.js` / `winback-data.js` | Win-back logic + generated client list (rebuild with `tools/build-winback.py`) |
 | `dashboard.html` | **Team growth dashboard** — shared FY27 checklist for Aaron + Sam (PIN-gated; state lives in the Tasks tab of the Sheet; PIN set as `DASH_PIN` in Code.gs, default `flowers26`) |
 | `qr-cards.html` / `qr-cards.pdf` | Print-ready A4 sheet of 8 referral QR cards — drivers leave one with every refresh |
 | `agents.json` | Agent registry — slug → name, agency, logo, email |
@@ -24,7 +26,8 @@ Free welcome-flowers gifting for Canberra real-estate agents. Agents log a gift 
 
 - **New agent signup email arrives** → run `add-agent.sh` with their details (+ logo if they sent one) → email them their link.
 - **New gift email arrives** → call the client, schedule delivery, set the row's `Status` in the sheet (`NEW → SCHEDULED → DELIVERED`).
-- All data lands in one Google Sheet: **"Floral Image Canberra — Agent Gifts"** (auto-created in the deploying Google account's Drive; tabs: `Gifts`, `Agent Signups`).
+- **New win-back trial email arrives** → phone them within the day, lock in a run day, set the row's `Status` in the `Win-back Trials` tab, diarise the six-week check-in.
+- All data lands in one Google Sheet: **"Floral Image Canberra — Agent Gifts"** (auto-created in the deploying Google account's Drive; tabs: `Gifts`, `Agent Signups`, `Referrals`, `Win-back Trials`, `Tasks`).
 
 ## Guardrails (from the strategy)
 

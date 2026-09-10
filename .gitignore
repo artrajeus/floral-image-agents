@@ -1,2 +1,6 @@
 .DS_Store
 apps-script/.clasp.json
+
+winback-links.csv
+winback-classified*.json
+winback-summary.md
