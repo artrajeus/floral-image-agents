@@ -183,8 +183,8 @@ def read_export(path):
             "id": len(out) + 1,
             "stage": stage,
             "name": clean_name(str(g("Company / Account"))) or clean_name(str(g("Opportunity Name"))),
-            "first": str(g("First Name")).strip(),
-            "last": str(g("Last Name")).strip(),
+            "first": real_name(str(g("First Name"))),
+            "last": real_name(str(g("Last Name"))),
             "city": str(g("City")).strip(),
             "email": email if "@" in email and "no@email" not in email and "na@email" not in email else "",
             "start": str(g("Start Date")),
@@ -192,6 +192,14 @@ def read_export(path):
             "won_but_lost": stage == "Closed Won" and (bool(re.search(r"LOST|COLLECT", raw, re.I)) or bool(g("Lost Date"))),
         })
     return out
+
+
+PLACEHOLDER_NAMES = re.compile(r"^(sir|madam|sir/ ?madam|na|n/a|-+|\.+|unknown|test|accounts?|reception|admin|info|manager|owner|office|team|hr|payable|principal)$", re.I)
+
+
+def real_name(s):
+    s = (s or "").strip()
+    return "" if not s or PLACEHOLDER_NAMES.match(s) else s
 
 
 def year(s):
@@ -279,7 +287,7 @@ def main():
             params = {"i": ind}
             if sub: params["s"] = slug(sub)
             if d["name"] and kind == "business": params["b"] = d["name"]
-            if d["first"] and d["first"].lower() not in ("sir/madam", "sir", "madam"): params["n"] = d["first"]
+            if d["first"]: params["n"] = d["first"]
             params["src"] = "winback-email"
             url = a.site + "?" + urllib.parse.urlencode(params)
             ms, mr, mi, nb = idx_ind_sub[(ind, sub)] if sub else 0, idx_ind_reg[(ind, reg)] if reg else 0, idx_ind[ind], idx_sub[sub] if sub else 0
