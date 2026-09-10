@@ -67,22 +67,43 @@ The full tagging with confidence notes is in `winback-classified.json` (kept out
 
 ## Sending it from Klaviyo
 
-1. **Import `winback-links.csv`** (kept out of the repo; it holds emails) as a new list
-   *Win-back 2026*. Map `Email`, `First Name`, `Last Name`, `Organization`, and keep every
-   `wb_*` column as a custom profile property. The one that matters is **`wb_url`**.
-2. **Build the campaign** with the copy below. The button links to
-   `{{ person|lookup:'wb_url' }}`. Use `{{ person|lookup:'wb_industry_label'|default:'workplaces' }}`
-   and `{{ person|lookup:'wb_suburb'|default:'Canberra' }}` for merge text.
-3. **Segment before sending.** Suggested splits, all from the CSV columns:
-   - `wb_kind = business` and `wb_lost_year ≥ 2020` first (freshest memory, ~600 contacts).
-   - `wb_match_tier = industry+suburb` gets the "your neighbours" subject line; everything else gets
-     the industry subject line.
-   - `wb_kind = person` (home customers) gets the home email.
-   - Skip anyone already on a current client list.
-4. **Send in waves** of ~150 a week so the team can phone every trial request within a day, on
-   the run days for that region (the CSV has `wb_region`).
-5. Trial requests land in the Sheet tab **Win-back Trials** and in canberra@floralimage.com,
+Everything below is already built in the Klaviyo account (10 Sep 2026). Nothing has been sent.
+
+**Lists** (imported from `winback-links.csv`, each profile carries the `wb_*` properties incl. `wb_url`):
+
+| List | ID | Profiles |
+|---|---|---|
+| Win-back 2026 — Business, lost 2020+ | `Xde6Ka` | 648 |
+| Win-back 2026 — Business, lost before 2020 | `YnCVD2` | 456 |
+| Win-back 2026 — Home customers | `XKBT2p` | 148 |
+
+**Templates:** `RM6VZp` (business, CODE editor; each campaign message holds its own clone) and
+`TC95GK` (home). The button links to `{{ person|lookup:'wb_url' }}`; the subject and the
+"who near you" sentence switch on `wb_match_tier`.
+
+**Draft campaigns** (from `email@floralimagecanberra.com.au`, reply-to `canberra@floralimage.com`,
+smart sending on, UTM tagged, excluding segments *TIER A Suppress* `XSRQNi` and *Sunset disengaged* `VU3Zqv`):
+
+| Campaign | ID | Audience |
+|---|---|---|
+| Win-back 2026 · Wave 1 · business lost 2020+ | `01M24YJSMR8ABNPMWPT1XYP48S` | `Xde6Ka` |
+| Win-back 2026 · Wave 2 · business lost before 2020 | `01M24YJYXTZK403RWR0E3YNY5N` | `YnCVD2` |
+| Win-back 2026 · Home customers | `01M24YJ0Y5RGXVRV9AMC85D26B` | `XKBT2p` |
+
+**Before sending**
+
+1. Open each campaign at `https://www.klaviyo.com/campaign/<ID>/wizard`, preview against a few
+   profiles (one `industry+suburb`, one `industry`, one home) and send yourself a test.
+2. Send Wave 1 first, on a Tuesday or Wednesday morning. Wave 2 a week later, Home whenever the
+   run schedule has room. If the team wants ~150 a week rather than 648 at once, clone the Wave 1
+   campaign and split the list by `wb_region`.
+3. Seven days after each send, clone the campaign as a reminder to non-clickers (copy below).
+4. Trial requests land in the Sheet tab **Win-back Trials** and in canberra@floralimage.com,
    with the segment and source on every row.
+
+**Known data gaps:** ~300 businesses have no suburb and get the industry-only page; about 35
+CRM emails were malformed (e.g. `no@no.com`, misspelt domains) and were skipped; a handful of CRM
+rows carry a different business's email, so expect a few "who are you?" replies.
 
 ## Email copy
 
