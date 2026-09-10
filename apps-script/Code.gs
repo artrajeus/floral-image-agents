@@ -41,6 +41,7 @@ function doPost(e) {
     if (data.type === "gift") return handleGift_(data);
     if (data.type === "agent_signup") return handleSignup_(data);
     if (data.type === "referral") return handleReferral_(data);
+    if (data.type === "winback_trial") return handleWinback_(data);
     if (data.type === "task_list") return handleTaskList_(data);
     if (data.type === "task_toggle") return handleTaskToggle_(data);
     if (data.type === "task_add") return handleTaskAdd_(data);
@@ -176,6 +177,53 @@ function handleReferral_(d) {
         p_("Your referral of <b>" + d.referred_company + "</b> just landed with our team.") +
         p_("<b>What happens next:</b> we'll reach out to them this week with a friendly free trial (and mention you sent us — unless your note says otherwise). The moment they become a client, <b>your next month of flowers is free</b> and you'll get an email confirming it.") +
         p_("Every referral that joins is another free month for you — there's no cap. Keep them coming.") +
+        foot_("Floral Image Canberra · Mitchell ACT · canberra@floralimage.com"),
+    });
+  }
+  return json_({ ok: true });
+}
+
+function handleWinback_(d) {
+  var sheet = getTab_("Win-back Trials", [
+    "Received", "Name", "Business", "Email", "Phone", "Delivery address", "Placement",
+    "Note", "Industry", "Suburb", "Region", "Source", "Page", "Status",
+  ]);
+  sheet.appendRow([
+    new Date(), d.name, d.business, d.email, d.phone, d.address, d.placement,
+    d.note, d.industry, d.suburb, d.region, d.source, d.page, "NEW",
+  ]);
+
+  var sheetUrl = SpreadsheetApp.openById(props_().getProperty("SS_ID")).getUrl();
+
+  // 1 — notify Floral Image
+  MailApp.sendEmail({
+    to: NOTIFY_EMAIL,
+    subject: "🌿 Win-back trial — " + d.business + " (" + (d.suburb || d.region || "suburb unknown") + ")",
+    htmlBody:
+      h2_("A lost client wants their free six weeks") +
+      row_("Business", d.business + (d.prefilled_business && d.prefilled_business !== d.business ? " (CRM: " + d.prefilled_business + ")" : "")) +
+      row_("Contact", d.name + " · " + d.email + ' · <a href="tel:' + d.phone + '">' + d.phone + "</a>") +
+      row_("Deliver to", d.address) +
+      row_("Placement", d.placement || "Not sure — surprise them") +
+      row_("Note", d.note || "—") +
+      row_("Segment", (d.industry || "?") + " · " + (d.suburb || "?") + (d.region ? " · " + d.region : "")) +
+      row_("Source", d.source || "direct") +
+      '<p style="margin-top:16px"><a href="' + sheetUrl + '">Open the Win-back Trials sheet →</a></p>' +
+      foot_("Action: call to lock in a run day, deliver + style, diarise the 6-week check-in. Set Status: NEW → SCHEDULED → DELIVERED → WON/COLLECTED."),
+  });
+
+  // 2 — confirm to the client
+  if (validEmail_(d.email)) {
+    var first = String(d.name || "").split(" ")[0] || "there";
+    MailApp.sendEmail({
+      to: d.email,
+      subject: "Welcome back — your free six weeks of flowers are booked 🌿",
+      htmlBody:
+        h2_("Lovely to have you back, " + first + ".") +
+        p_("Your free six weeks of designer flowers for <b>" + d.business + "</b> is logged with our Canberra team.") +
+        p_("<b>What happens next:</b> we'll give you a quick call to lock in a delivery day, then drop in on one of our regular run days to place and style an arrangement" + (d.placement ? " for your " + String(d.placement).toLowerCase().replace(/ \/.*$/, "") : "") + ". We'll refresh it across the six weeks so it never looks the same for long.") +
+        p_("At the end, one question: keep them, or collect them? No card details, no invoice, nothing that rolls over, and never a hard sell.") +
+        p_("Anything you'd like us to know before we come? Just reply to this email.") +
         foot_("Floral Image Canberra · Mitchell ACT · canberra@floralimage.com"),
     });
   }

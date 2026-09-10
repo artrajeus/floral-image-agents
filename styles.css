@@ -126,3 +126,14 @@ details>div{padding:0 20px 15px;font-size:15px}
 footer{border-top:1px solid var(--line);padding:34px 0 64px;font-size:14px;color:var(--muted)}
 footer a{color:var(--euc)}
 footer img{height:18px;opacity:.85;display:block;margin-bottom:10px}
+
+/* win-back page: client social proof */
+.client-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:22px}
+.client-grid.compact{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.client-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;min-height:64px;justify-content:center}
+.client-grid.compact .client-card{padding:11px 14px;min-height:0}
+.client-name{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.2;color:var(--ink)}
+.client-grid.compact .client-name{font-size:17px}
+.client-tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.more{font-size:14px;color:var(--muted);margin-top:14px}
+.sub-h{font-family:var(--serif);font-size:24px;font-weight:600;margin:34px 0 0}

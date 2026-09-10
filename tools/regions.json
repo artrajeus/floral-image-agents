@@ -1,0 +1,15 @@
+{
+  "inner-north": {"label":"Inner North","suburbs":["Braddon","Turner","O'Connor","Lyneham","Dickson","Ainslie","Hackett","Watson","Downer","Campbell","Reid","Acton","Canberra City","Russell","Duntroon"]},
+  "inner-south": {"label":"Inner South","suburbs":["Kingston","Barton","Forrest","Deakin","Manuka","Griffith","Narrabundah","Red Hill","Yarralumla","Fyshwick","Parkes","Symonston","Hume","Capital Hill"]},
+  "belconnen": {"label":"Belconnen","suburbs":["Belconnen","Bruce","Macquarie","Hawker","Page","Scullin","Weetangera","Cook","Aranda","Kaleen","Giralang","Evatt","McKellar","Lawson","Florey","Latham","Holt","Higgins","Macgregor","Charnwood","Dunlop","Fraser","Flynn","Melba","Spence","Kippax","Jamison","Strathnairn"]},
+  "gungahlin": {"label":"Gungahlin","suburbs":["Gungahlin","Mitchell","Nicholls","Ngunnawal","Amaroo","Casey","Crace","Franklin","Harrison","Forde","Palmerston","Bonner","Jacka","Moncrieff","Taylor","Throsby","Hall","Kenny"]},
+  "woden": {"label":"Woden Valley","suburbs":["Woden","Phillip","Garran","Curtin","Hughes","Mawson","Farrer","Isaacs","O'Malley","Pearce","Torrens","Chifley","Lyons"]},
+  "weston-creek": {"label":"Weston Creek & Molonglo","suburbs":["Weston","Stirling","Rivett","Chapman","Duffy","Fisher","Holder","Waramanga","Coombs","Wright","Denman Prospect","Whitlam"]},
+  "tuggeranong": {"label":"Tuggeranong","suburbs":["Tuggeranong","Greenway","Kambah","Wanniassa","Erindale","Monash","Oxley","Gowrie","Fadden","Macarthur","Chisholm","Gilmore","Richardson","Isabella Plains","Calwell","Theodore","Conder","Banks","Gordon","Bonython"]},
+  "airport": {"label":"Canberra Airport & Majura","suburbs":["Canberra Airport","Majura Park","Pialligo","Brindabella Park"]},
+  "queanbeyan": {"label":"Queanbeyan & surrounds","suburbs":["Queanbeyan","Jerrabomberra","Googong","Bungendore","Karabar","Crestwood","Queanbeyan East","Queanbeyan West","Sutton"]},
+  "goulburn": {"label":"Goulburn","suburbs":["Goulburn","Marulan","Crookwell","Taralga"]},
+  "yass": {"label":"Yass Valley","suburbs":["Yass","Murrumbateman","Gundaroo","Binalong"]},
+  "snowy": {"label":"Cooma & Snowy Mountains","suburbs":["Cooma","Jindabyne","Perisher Valley","Thredbo","Charlotte Pass","Kosciuszko National Park","Berridale","Bombala","Smiggin Holes"]},
+  "regional": {"label":"Regional NSW","suburbs":["Bowral","Batemans Bay","Moruya","Braidwood","Wagga Wagga","Young","Tumut","Moss Vale","Mittagong","Canowindra","Bega","Narooma","Merimbula","Nowra","Cootamundra","Boorowa","Harden","Gunning","Tarago","Bredbo","Nimmitabel","Adaminaby","Eden","Ulladulla"]}
+}

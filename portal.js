@@ -404,5 +404,5 @@
     }
   }
 
-  window.FIPortal = { initGift, initSignup, initReferral, initDashboard };
+  window.FIPortal = { initGift, initSignup, initReferral, initDashboard, wireForm, fieldOk, validEmail, submit };
 })();
