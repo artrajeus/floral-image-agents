@@ -91,22 +91,60 @@ test('two packages sharing a source are caught', () => {
   const res = imagecheck.check([
     entry('a', ['kitchen table flowers']),
     entry('b', ['kitchen table flowers']),
-  ]);
+  ], { manifest: new Map() });
   assert.equal(res.ok, false);
   assert.equal(res.problems[0].kind, 'duplicate');
 });
 
 test('an absent source_images is reported, not silently treated as empty', () => {
-  const res = imagecheck.check([entry('a', undefined)]);
+  const res = imagecheck.check([entry('a', undefined)], { manifest: new Map() });
   assert.equal(res.ok, false);
   assert.equal(res.problems[0].kind, 'unrecorded');
   assert.match(res.problems[0].message, /not the same as \[\]/);
 });
 
 test('an empty source_images passes — a type tile genuinely has no source', () => {
-  const res = imagecheck.check([entry('a', []), entry('b', [])]);
+  const res = imagecheck.check([entry('a', []), entry('b', [])], { manifest: new Map() });
   assert.equal(res.ok, true);
   assert.equal(res.typeTiles, 2);
+});
+
+test('a rename from spaces to hyphens does not create a second source', () => {
+  // The library holds "kitchen table flowers.jpg"; the committed copy is
+  // "kitchen-table-flowers.jpg". Keyed literally, those are two sources.
+  const res = imagecheck.check([
+    entry('a', ['kitchen table flowers']),
+    entry('b', ['kitchen-table-flowers.jpg']),
+  ], { manifest: new Map() });
+  assert.equal(res.ok, false);
+  assert.equal(res.problems[0].kind, 'duplicate');
+});
+
+test('the same bytes under two unrelated names are caught via the manifest', () => {
+  // New_flowers_1.JPG and P20TS25001.JPG are byte-identical in the real library.
+  // Nothing about the names says so, so the hash has to.
+  const manifest = new Map([
+    ['new-flowers-1', { key: 'new-flowers-1', original_sha256: 'abc123' }],
+    ['p20ts25001', { key: 'p20ts25001', original_sha256: 'abc123' }],
+  ]);
+  const res = imagecheck.check([
+    entry('a', ['New_flowers_1']),
+    entry('b', ['P20TS25001']),
+  ], { manifest });
+  assert.equal(res.ok, false);
+  assert.equal(res.problems.find((p) => p.kind === 'same-bytes') !== undefined, true);
+});
+
+test('different bytes under similar names are not falsely flagged', () => {
+  const manifest = new Map([
+    ['p20ts25001', { key: 'p20ts25001', original_sha256: 'aaa' }],
+    ['p20ts25002', { key: 'p20ts25002', original_sha256: 'bbb' }],
+  ]);
+  const res = imagecheck.check([
+    entry('a', ['P20TS25001']),
+    entry('b', ['P20TS25002']),
+  ], { manifest });
+  assert.equal(res.ok, true);
 });
 
 test('the same photograph under two paths or extensions is still one source', () => {
@@ -115,13 +153,13 @@ test('the same photograph under two paths or extensions is still one source', ()
   const res = imagecheck.check([
     entry('a', ['Adelaide/PRINT-HI-5072_115.jpg']),
     entry('b', ['Photos for marketing/print-hi-5072_115.JPG']),
-  ]);
+  ], { manifest: new Map() });
   assert.equal(res.ok, false);
   assert.equal(res.problems[0].kind, 'duplicate');
 });
 
 test('a source repeated inside one package is caught', () => {
-  const res = imagecheck.check([entry('a', ['x', 'x'])]);
+  const res = imagecheck.check([entry('a', ['x', 'x'])], { manifest: new Map() });
   assert.equal(res.ok, false);
   assert.equal(res.problems[0].kind, 'repeat-within');
 });
@@ -131,14 +169,14 @@ test('a clean queue of distinct sources passes', () => {
     entry('a', ['kitchen table flowers']),
     entry('b', ['P20TS25042']),
     entry('c', []),
-  ]);
+  ], { manifest: new Map() });
   assert.equal(res.ok, true);
   assert.equal(res.distinctSources, 2);
   assert.equal(res.typeTiles, 1);
 });
 
 test('source_images that is not an array is rejected', () => {
-  const res = imagecheck.check([entry('a', 'kitchen table flowers')]);
+  const res = imagecheck.check([entry('a', 'kitchen table flowers')], { manifest: new Map() });
   assert.equal(res.ok, false);
   assert.equal(res.problems[0].kind, 'malformed');
 });

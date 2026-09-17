@@ -34,14 +34,48 @@ const fs = require('fs');
 const path = require('path');
 
 const QUEUE_DIR = path.join(__dirname, 'queue');
+const MANIFEST_FILE = path.join(__dirname, 'library', 'manifest.json');
 
-/** Reduce any reference to its stable key: drop directories and extension. */
+/**
+ * Reduce any reference to its stable key: drop directories and extension, and
+ * flatten spaces, underscores and hyphens to one separator.
+ *
+ * The flattening is not cosmetic. The library arrived with the same photograph
+ * as "kitchen table flowers.jpg" in one place and "kitchen-table-flowers.jpg"
+ * in another; keyed literally, those are two sources and the check passes.
+ */
 function normalise(ref) {
   return String(ref)
     .trim()
     .replace(/^.*[\\/]/, '')
     .replace(/\.[A-Za-z0-9]+$/, '')
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/**
+ * The library manifest, if it exists: key -> sha256 of the original bytes.
+ *
+ * Names are not enough. `New_flowers_1.JPG` in Residential Photos turned out to
+ * be **byte-identical** to `P20TS25001.JPG` in the catalogue — same photograph,
+ * two folders, two unrelated names. Keyed on the name, two posts could run the
+ * identical image and this check would pass clean, which is precisely the defect
+ * it exists to prevent, arriving one level deeper than the original rule
+ * anticipated.
+ *
+ * So where the bytes are known, they are the key.
+ */
+function readManifest(file = MANIFEST_FILE) {
+  try {
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    const byKey = new Map();
+    for (const item of data.items || []) byKey.set(normalise(item.key), item);
+    return byKey;
+  } catch {
+    return new Map();
+  }
 }
 
 function readQueue(queueDir = QUEUE_DIR) {
@@ -56,7 +90,7 @@ function readQueue(queueDir = QUEUE_DIR) {
     }));
 }
 
-function check(entries) {
+function check(entries, { manifest = readManifest() } = {}) {
   const problems = [];
   const typeTiles = [];
   const seen = new Map(); // normalised key -> [slug, ...]
@@ -113,6 +147,26 @@ function check(entries) {
     }
   }
 
+  // Same bytes under different names. Only possible where the manifest knows
+  // the file, which is why the library is committed rather than left in Drive.
+  const byHash = new Map();
+  for (const key of seen.keys()) {
+    const item = manifest.get(key);
+    if (!item || !item.original_sha256) continue;
+    if (!byHash.has(item.original_sha256)) byHash.set(item.original_sha256, []);
+    byHash.get(item.original_sha256).push({ key, slugs: [...new Set(seen.get(key))] });
+  }
+  for (const [hash, entries] of byHash) {
+    if (entries.length < 2) continue;
+    problems.push({
+      kind: 'same-bytes',
+      slug: entries.flatMap((e) => e.slugs).join(', '),
+      message: `${entries.map((e) => `"${e.key}"`).join(' and ')} are the SAME IMAGE ` +
+               `(sha256 ${hash.slice(0, 12)}…) under different names, used by ` +
+               `${entries.flatMap((e) => e.slugs).join(', ')}. One photograph, one post.`,
+    });
+  }
+
   return {
     ok: problems.length === 0,
     problems,
@@ -122,7 +176,7 @@ function check(entries) {
   };
 }
 
-module.exports = { check, readQueue, normalise, QUEUE_DIR };
+module.exports = { check, readQueue, normalise, readManifest, QUEUE_DIR, MANIFEST_FILE };
 
 if (require.main === module) {
   const result = check(readQueue());
