@@ -1,0 +1,32 @@
+{
+  "status": "draft",
+  "approved_by": null,
+  "approved_on": null,
+  "scheduled_utc": "2026-09-18T23:00:00Z",
+  "scheduled_local": "2026-09-19 09:00 Australia/Sydney (+10:00)",
+  "pillar": "home",
+  "audience": "b2c",
+  "format": "image",
+  "media": [
+    {
+      "url": "https://artrajeus.github.io/floral-image-agents/social/rendered/2026-09-19-your-kitchen-bench/1.jpg",
+      "alt": "A small arrangement of pale pink garden roses and deep pink tulips with green foliage, in a low round glass vase on a white kitchen benchtop. A grey herringbone tile splashback and a red cookbook stand behind it; a gas cooktop fills the bottom right."
+    }
+  ],
+  "caption": "Your kitchen bench, every month, without you thinking about it.\n\nA different design each time — we bring the new one and take the old one away. No water to change. Nothing wilting by Thursday.\n\nHand made, allergy-free, and good for five years.",
+  "first_comment": "We refresh flowers for homes and workplaces across Canberra and the surrounding region — floralimagecanberra.com.au",
+  "link": "https://floralimagecanberra.com.au",
+  "story": {
+    "url": "https://artrajeus.github.io/floral-image-agents/social/rendered/2026-09-19-your-kitchen-bench/story.jpg",
+    "alt": "The same arrangement on a kitchen benchtop, set on a cream background."
+  },
+  "source_images": ["kitchen table flowers"],
+  "crosspost_facebook": true,
+  "posted": {
+    "ig_media_id": null,
+    "ig_comment_id": null,
+    "ig_story_id": null,
+    "fb_post_id": null,
+    "posted_at": null
+  }
+}

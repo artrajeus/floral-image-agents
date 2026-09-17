@@ -1,0 +1,168 @@
+# The publisher.
+#
+# Runs hourly, on every push to main, and on demand.
+#
+# ---------------------------------------------------------------------------
+# Why hourly, and not every fifteen minutes
+# ---------------------------------------------------------------------------
+# GitHub Actions cron is a best-effort queue, not a scheduler. On a private
+# repository `*/15` has been measured at a median gap of 66 minutes and as much
+# as 162 — asking for four times an hour does not get you four times an hour, it
+# gets you the same lateness with three quarters of the runs silently dropped.
+#
+# So: ask for hourly, which is roughly what you get, and let `scheduled_utc` in
+# each package decide what actually goes out. Minute 30 rather than 0, because
+# the top of the hour is the platform's busiest minute and is itself a cause of
+# delay.
+#
+# Because delivery is late far more often than early, **schedule a package about
+# 30 minutes before the slot you actually want it in.** A post set for 08:30
+# lands somewhere around 09:00; one set for 09:00 lands somewhere after it.
+#
+# ---------------------------------------------------------------------------
+# Why `push` is a trigger
+# ---------------------------------------------------------------------------
+# It is the nudge. If a cron run is very late and a post is sitting due, an
+# empty commit (`./publisher/nudge.sh`) starts a run immediately. That is only
+# safe because publishing is idempotent — a package that is already `posted` is
+# skipped, so a nudge can never double-post.
+#
+# The record-back commit carries `[skip ci]`, or it would trigger this workflow
+# again and loop.
+#
+# ---------------------------------------------------------------------------
+# Why the job is quiet when there is nothing to do
+# ---------------------------------------------------------------------------
+# Twenty-three hours out of twenty-four, nothing is due. Those runs do the
+# tests, ask `--due` (no credentials, no network), find nothing and stop.
+#
+# That matters more than it looks: a workflow that fails noisily every hour
+# trains everyone to ignore it, and then the failure that matters arrives into
+# an inbox nobody reads. So an empty queue is a green tick — but a *due* package
+# with missing credentials fails loudly, because that is a real problem.
+
+name: publish
+
+on:
+  schedule:
+    - cron: '30 * * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (preflight every URL, post nothing)'
+        type: boolean
+        default: true
+      package:
+        description: 'Optional: one package path, e.g. social/queue/2026-09-19-your-kitchen-bench'
+        type: string
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  # Never two publishers at once. Publishing is idempotent, but a second run
+  # racing the record-back commit is a needless way to find that out.
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Fast, no credentials, no network. If these fail nothing else should run.
+      - name: Tests
+        run: |
+          node --test publisher/test.js
+          node --test social/test.js
+
+      - name: Queue checks
+        run: node social/imagecheck.js
+
+      - name: Is anything due?
+        id: due
+        run: |
+          DUE=$(node publisher/publish.js --due)
+          COUNT=$(printf '%s' "$DUE" | grep -c . || true)
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          if [ "$COUNT" -eq 0 ]; then
+            echo "Nothing approved and due. Stopping here."
+          else
+            echo "Due now:"; printf '%s\n' "$DUE"
+          fi
+
+      # A manual run always proceeds — that is the point of running it by hand.
+      - name: Should we go on?
+        id: go
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ steps.due.outputs.count }}" != "0" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Credentials are only required once there is something to publish. Missing
+      # them at that point is a real failure and should be loud.
+      - name: Check credentials
+        if: steps.go.outputs.go == 'true'
+        env:
+          META_USER_TOKEN: ${{ secrets.META_USER_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: |
+          MISSING=""
+          [ -z "$META_USER_TOKEN" ] && MISSING="$MISSING META_USER_TOKEN"
+          [ -z "$FB_PAGE_ID" ]      && MISSING="$MISSING FB_PAGE_ID"
+          [ -z "$IG_USER_ID" ]      && MISSING="$MISSING IG_USER_ID"
+          if [ -n "$MISSING" ]; then
+            echo "::error::A package is due but these secrets are not set:$MISSING"
+            echo "See publisher/SETUP.md. Step 3 is the one that catches people:"
+            echo "Facebook grants a scope and a Page in two separate clicks and skips the second."
+            exit 1
+          fi
+
+      - name: Who are we posting as
+        if: steps.go.outputs.go == 'true'
+        env:
+          META_USER_TOKEN: ${{ secrets.META_USER_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: node publisher/whoami.js
+
+      - name: Publish
+        if: steps.go.outputs.go == 'true'
+        env:
+          META_USER_TOKEN: ${{ secrets.META_USER_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          if [ -n "${{ inputs.package }}" ]; then ARGS="$ARGS --package ${{ inputs.package }}"; fi
+          echo "node publisher/publish.js$ARGS"
+          node publisher/publish.js $ARGS
+
+      - name: Commit the media IDs back
+        if: steps.go.outputs.go == 'true' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+        run: |
+          node social/schedule.js
+          if git diff --quiet; then
+            echo "nothing to record"
+            exit 0
+          fi
+          git config user.name  "floral-image-publisher"
+          git config user.email "floralimagecanberra@gmail.com"
+          git add social/queue social/SCHEDULE.md publisher/token-first-seen.json
+          # [skip ci] or this push retriggers the workflow and loops.
+          git commit -m "Record what went out [skip ci]"
+          git push
