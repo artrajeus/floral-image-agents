@@ -14,51 +14,71 @@ subscription.
 
 ## Materials
 
-**Chosen per flower, to match how the real flower feels in life.** A flower that
-is silk to the touch in reality is made in silk. Other flowers use other
-materials for the same reason.
+**Aaron (interview):** materials are chosen per flower, to match how the real
+flower feels in life. A flower that is silk to the touch in reality is made in
+silk. Other flowers use other materials for the same reason.
 
-This is the single most important fact in this file, and the one most likely to
-be got wrong by assumption. Do **not** write "silk flowers" as a blanket
-description of the range — that is only true of the flowers it is true of. Do
-**not** write "polyester", "plastic", or "faux". The category-default guess is
-wrong here, and the correct answer is more interesting than the guess.
+### ⚠ This does not match the LCA inventory, and must be resolved before use
 
-**Approved framings:** "life-like", "designer", "hand made", "materials chosen to
-match how the real flower feels".
+The 2019 life cycle assessment (see `sustainability.md`) lists the raw materials
+of a Floral Image arrangement as:
 
-⚠ Full per-flower material list not supplied. Do not name the material of a
-specific flower unless it is recorded here.
+> polypropylene · polyester fabric · metal wire · inks & dyes · glass vase ·
+> **epoxy resin**
+
+**Silk does not appear anywhere in it.**
+
+Three possible explanations, and nobody in this repository knows which: the range
+changed after 2019; "silk" is being used descriptively rather than literally; or
+silk is used in designs outside the five sampled.
+
+**Until head office resolves it, no caption names a material.** Not "silk", not
+"polyester", not "resin". The claim that survives regardless is the one that was
+always the better line anyway: **materials chosen to match how the real flower
+feels.** That is true under every explanation above.
+
+This is exactly the failure the system is built to prevent — a plausible,
+confidently-stated material that turns out to be the wrong one. The correct
+answer is more interesting than the guess, and we do not have it yet.
+
+**Never** write "faux", "plastic flowers", or "fake flowers" in any case.
 
 ## The range
 
-- **Hundreds of designs.**
+- **Hundreds of designs.** (The 2019 LCA describes a head-office portfolio of
+  **>1,000 products**. That is national and seven years old — do not use it as a
+  Canberra figure.)
 - **No seasonal range changes.** Deliberately — the point of life-like designer
-  flowers is that you can have any flower whether or not it is in season. This
-  is a selling point, not an absence.
-- **Stock rotates constantly**, because arrangements are continuously moving
-  between clients as part of the refresh cycle.
+  flowers is that you can have any flower whether or not it is in season. This is
+  a selling point, not an absence.
+- **Stock rotates constantly**, because arrangements move continuously between
+  clients as part of the refresh cycle.
 
-⚠ Exact design count not supplied. "Hundreds" is the approved vaguer form. Do
-not invent a specific number.
+⚠ Exact current design count not supplied. "Hundreds" is the approved vaguer
+form. Do not invent a number.
 
 ## Lifespan
 
 **5 years.**
 
-## The reuse cycle
+## The refresh cycle — confirmed framing
 
-When an arrangement is collected from a business or home, it is **cleaned and
-then placed with another business or home.** The flowers are reusable; that is
-how the refresh economics work and it is the foundation of the sustainability
-story.
+**Aaron, 2026-09-17, in his own words:** we deliver an arrangement; a month later
+we swap it for a *different* one, so the client gets a different design each
+time; the old arrangement goes back into the van and is cleaned for another
+business.
 
-**Positioning judgement for Sam, not for the generator to decide:** this is
-either the best sustainability story the business has, or a thing a customer
-feels slightly odd about, depending entirely on framing. The framing that works
-is circular-economy — *cleaned, restyled, rehomed, five years of life out of
-every stem* — and the framing that does not is anything that reads as
-second-hand. ⚠ Confirm with Sam before this runs as a pillar post.
+**The customer-facing benefit is the design change, not the cleaning.** A new
+look every month, for the price of a subscription, with nobody having to choose
+it or maintain it. The circular side — cleaned, restyled, rehomed, five years out
+of every stem — is the sustainability proof underneath, and it is welcome in a
+post. It is not the headline.
+
+Aaron's internal phrase for this is "the illusion of fresh flowers". **Do not use
+that phrase publicly** — internally it is a neat description of the effect;
+externally "illusion" sounds like something is being put over the customer, which
+is the opposite of what is happening. The public version is "a different design
+every month".
 
 ## Allergy-free
 
@@ -74,15 +94,12 @@ different order and none of them is approved.
 - No vases to clean.
 - Nobody in the office is quietly in charge of the flowers.
 - Any flower, any time of year, regardless of season.
+- A different design every month.
 
-## ⚠ The sustainability number
+## Sustainability
 
-**"80× more sustainable than farmed flowers over a 5-year period."**
+**Sourced and unblocked** as of 2026-09-17. The 80× figure comes from a 2019
+independent life cycle assessment, and it carries conditions that are not
+optional.
 
-**BLOCKED — unusable until sourced.** A quantified environmental claim needs
-substantiation, and greenwashing is a current ACCC enforcement priority. A
-number as specific as 80× came from somewhere — a study, a lifecycle assessment,
-a head-office document. Get the source and record it here with a citation, and
-this becomes one of the strongest posts available. Until then it does not run in
-any form, including softened ("far more sustainable"), because the softened
-version is the same unsourced claim with the evidence removed.
+**See `sustainability.md` before writing a single word about the environment.**

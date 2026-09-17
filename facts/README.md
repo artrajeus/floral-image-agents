@@ -47,6 +47,7 @@ one.
 | `product.md` | The range, materials, lifespan, the reuse cycle |
 | `service.md` | Coverage, run days, who turns up, response times |
 | `proof.md` | Client counts, ratings, review counts — the contested numbers |
+| `sustainability.md` | The 2019 LCA, the 80x figure, and its conditions |
 | `people-and-images.md` | Who may appear, which assets are real, which are generated |
 | `compliance.md` | What may never be said, and why |
 

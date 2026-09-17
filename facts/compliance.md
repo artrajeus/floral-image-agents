@@ -65,12 +65,15 @@ gifting mechanic are not social content in any form.
 
 ## 5. Claims that are blocked pending evidence
 
-| Claim | Why blocked |
+| Claim | Status |
 |---|---|
-| "80× more sustainable over 5 years" | Quantified environmental claim, unsourced. Greenwashing is a current ACCC enforcement priority. |
-| "600+ businesses" unqualified | Lifetime figure presented as current. Misleading as worded. |
-| "5★ Trustpilot · 1,400+ reviews" on Canberra material | National brand's reviews, Canberra context. |
-| "Six weeks free" | Contradicts the stated 1-week/2-week trial. Unresolved. |
+| "600+ businesses" unqualified | ❌ **Blocked.** Lifetime figure presented as current. Misleading as worded. Use ~470 current, or qualify explicitly. |
+| "5★ Trustpilot · 1,400+ reviews" on Canberra material | ❌ **Blocked** pending Sam. National brand's reviews in a Canberra context. |
+| "Six weeks free" | ❌ **Never on social.** Resolved 2026-09-17: a direct win-back play, not a public offer. See `offer.md`. |
+| Naming any material — "silk", "polyester", "resin" | ❌ **Blocked.** Aaron's account and the LCA inventory disagree. See `product.md`. |
+| The 80x carbon figure | ⚠ **Unblocked with conditions.** Sourced to a 2019 independent LCA. The exact permitted wording is in `sustainability.md` and is not optional. |
+| Any ethical-sourcing, labour or modern-slavery claim | ❌ **Blocked in both directions.** The LCA's own social-risk section finds elevated risk in the Chinese supply chain. Do not go near it. |
+| "Sustainable", "eco-friendly", "green", "carbon neutral" as bare adjectives | ❌ **Blocked.** The evidence is a carbon figure over five years against a named comparator. Unqualified green adjectives are the textbook ACCC greenwashing finding. |
 
 ## 6. Claims that are approved, in their exact wording
 

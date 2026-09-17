@@ -15,35 +15,40 @@ verified_by: Aaron (interview) + visual inspection
 
 ## The existing photographs in `img/`
 
-Head office organised the shoot; Aaron's understanding is that these are cleared
-for social use. Aaron also believes **one of the four is a real photograph and
-three are AI generated**, without being sure which.
+Head office organised the shoot and these are cleared for social use.
 
-Visual inspection at full resolution, 2026-09-17:
+**Aaron, 2026-09-17: the flower handover image is the real one.**
 
-| File | Assessment | Confidence |
+| File | Status | Notes |
 |---|---|---|
-| `van-crew.jpg` | **Real.** 1800px, NSW plate `FPI·11Q`, Maughan Thiem dealer frame, consistent reflections across body panels, crisp legible wordmark. | High |
-| `office-smile.jpg` | **Probably real.** Natural depth-of-field falloff, wrist tattoo, plausible fabric and hair detail. | Medium |
-| `refresh-handoff.jpg` | **Uncertain, leaning generated.** Low resolution, faces slightly plastic. | Low |
-| `trial-arrangement.jpg` | **Leaning generated.** The van wrap renders as a soft rainbow gradient; the real van in `van-crew.jpg` carries a hard-edged triangular mosaic. A model without the wrap in reference redesigns it — the documented failure mode. | Medium |
+| `refresh-handoff.jpg` | ✅ **Real** — confirmed by Aaron | The handover across the reception desk |
+| `van-crew.jpg` | ⚠ **Conflict — see below** | |
+| `office-smile.jpg` | ❌ Treat as generated | |
+| `trial-arrangement.jpg` | ❌ Treat as generated | Van wrap renders as a soft rainbow gradient; the real van carries a hard-edged triangular mosaic |
 
-**This is an assessment, not a determination.** Head office knows. Ask them.
+### ⚠ The van-crew conflict
 
-### The live-site problem
+Aaron's account is that one of the four is real and the rest are generated, which
+makes `van-crew.jpg` generated. Visual inspection disagrees, with high
+confidence: 1800px native, NSW plate `FPI-11Q`, a Maughan Thiem dealer frame,
+reflections consistent across every body panel, and a crisp legible wordmark at
+a size where a model would be redesigning it.
 
-`welcome-back.html` gives `office-smile.jpg` the alt text *"A client smiling
-beside her Floral Image arrangement in a Canberra office"*. If that image is
-generated, the site is currently presenting an AI person as a real client. Fix
-the alt text regardless — she is not a named client and the alt text should not
-imply she is.
+Both readings cannot be right. Recorded here rather than silently resolved —
+**head office knows, and should be asked.** Interim: `van-crew.jpg` may be used,
+because the worst case is that it is a generated image of a van, which carries no
+consent exposure. It contains no person presented as anyone in particular.
 
-### Until head office confirms
+### `office-smile.jpg` is the one that matters
 
-- `van-crew.jpg` — cleared for social.
-- The other three — **not used in any post**, because a post is a fresh
-  publication and republishing an unverified generated person as real is the
-  exposure, not the original shoot.
+On the live site it carries the alt text *"A client smiling beside her Floral
+Image arrangement in a Canberra office."* On the evidence above she is generated,
+which means **the site currently describes an AI person as a client.**
+
+Two things follow:
+1. **Fix the alt text on `welcome-back.html`** regardless of what head office
+   says. She is not a client and the alt text must not say she is.
+2. **The image does not run on social** while it is unresolved.
 
 ## Generated imagery
 
@@ -69,3 +74,24 @@ Any generated image containing the van must be checked at 1:1 against this
 photograph. The wrap is precisely the kind of detail a model redesigns rather
 than reproduces — and `trial-arrangement.jpg` appears to be an existing example
 of exactly that.
+
+
+## Where rendered images are hosted
+
+**Decision, Aaron 2026-09-17: the repository**, served over GitHub Pages at
+`social/rendered/<package-slug>/`.
+
+The Graph API fetches a URL — it will not accept a local file — so every image
+must be publicly reachable, stable, and serving a real `image/jpeg` content type
+before it can be posted.
+
+**The accepted tradeoff:** anything pushed is publicly viewable at a guessable
+path from the moment of the push, drafts included, and git history keeps it even
+after deletion. Nobody is going to go looking, and the alternative cost a new
+service and a new credential for a risk that rounds to nothing.
+
+**What follows from it:** do not push a rendered image until its package is worth
+someone seeing. Render locally, QC at 1:1, then push — the push is publication.
+
+⚠ **Catalogue reference images have not been received.** Nothing image-related
+can begin until they are in the repo.

@@ -20,10 +20,15 @@ how the business operates, not slippage, and it is the honest thing to say.
 write "exactly one week", "7 days only", or anything that implies a hard
 deadline we do not enforce.
 
-⚠ **Conflict with the live site.** `welcome-back.html` currently offers *six
-weeks free* to lapsed clients. Aaron's interview answer gives 1 week / 2 weeks.
-Unresolved: is the six-week win-back a separate live offer, or is that page
-stale? Until resolved, **no post mentions six weeks.**
+**The six-week win-back offer is resolved — and it is not social content.**
+`welcome-back.html` offers six weeks free to lapsed clients. Aaron, 2026-09-17:
+it is an idea the boss floated to bring old clients back, shows them the new
+range free for six weeks and then sells after, **"just an idea for the moment,
+may implement — not something that we will advertise."**
+
+So: it is a direct, one-to-one win-back play, not a public offer. **No post
+mentions six weeks**, and the live trial figures for social are 1 week / 2 weeks.
+No inconsistency to fix on the site; the page is simply not a social surface.
 
 ## Pricing
 
