@@ -1,80 +1,84 @@
 ---
 verified: 2026-09-17
-verified_by: Claude (read directly from the connected Google Drive)
-status: ⚠ Aaron to confirm this is the intended folder
+verified_by: Aaron (correction)
+status: ⚠ The social catalogue has NOT been received. Nothing image-related can begin.
 ---
 
 # The catalogue
 
-**No upload is needed.** The Google Drive connector is authorised against
-`floralimagecanberra@gmail.com`, and the catalogue is already reachable.
+Two distinct sets of arrangements exist. **Confusing them is a live risk**, because
+one of them must never appear in advertising, and it is the one that was found
+first.
 
-## Location
+## ❌ The seasonal selection — NEVER advertised
 
-**`AA Mitchell Available Flowers`** — Drive folder `1OGhceWgwKCJT9wTzjicN8WpC_poFEUSR`
+**`AA Mitchell Available Flowers`** — Drive folder `1OGhceWgwKCJT9wTzjicN8WpC_poFEUSR`,
+with subfolders `Small`, `Medium and Large`, `BRAND NEW ARRANGEMENTS`.
 
-| Subfolder | Drive ID | Counted |
-|---|---|---|
-| `Small` | `1T0mw-msa4HDUlqbiYIhFPWhF9MATa9FI` | 43 files |
-| `Medium and Large` | `1P1qwY2hBSPVxDkz9zlJcEWb8Eid3IQ5L` | 30+ (not fully paginated) |
-| `BRAND NEW ARRANGEMENTS` | `1uKrz_zdGsTfQnyoSnlZvVLCVEW0NsAdO` | 15 files |
+**Aaron, 2026-09-17:** *"that is the one that we use for the seasonal selection
+which we do not advertise. those are old arrangements that we sell a subscription
+for $197 per year. we do not advertise those at all and we will not advertise
+them."*
 
-⚠ Confirm with Aaron that this is the folder he meant before it is treated as
-canonical. The naming and contents match his description — "some home images as
-well as business ones", plus the newest arrangements — but nobody has said so.
+**Hard exclusion. No image from this folder tree is used as a reference, a
+composite source, or content, in any post, ever.** Including the subfolder
+labelled `BRAND NEW ARRANGEMENTS` — the label is relative to that set, not to the
+refresh range, and it is exactly the sort of thing that looks like the right
+folder to someone skimming.
 
-## What the files are
+The $197/year seasonal subscription is likewise not a social offer. See
+`compliance.md`.
 
-Studio reference shots. One arrangement, plain white backdrop, white cloth
-beneath, lit flat, with a **numbered ID card in the frame** giving the design
-number. Verified by opening `BRAND NEW ARRANGEMENTS/3.JPG` at full size.
+**This was found and provisionally recorded as the catalogue on 2026-09-17,
+before Aaron corrected it.** Left in the file rather than deleted, because a
+folder that must never be advertised is worth naming explicitly. A future run
+that goes looking for "the catalogue in Drive" will find this one first.
 
-**They are references, not content.** The numbered card, the clinical lighting
-and the crumpled cloth mean none of them can be posted as-is. What they are is
-exactly the right input for the sanctioned generation path in
-`compliance.md` rule 2: image-to-image from a real arrangement, never a
+## ✅ The social catalogue — the regular refresh range
+
+⚠ **NOT YET RECEIVED.** Aaron has downloaded a folder of the current
+arrangements from head office — the designs actually used in the monthly refresh.
+
+**Nothing image-related begins until it arrives.** No generation, no packages
+with media, no render pipeline work against a stand-in.
+
+When it lands, record here: where it lives, how many designs, the naming
+convention, and which designs map to Splash of Colour / Conversation Starter /
+Wow Factor.
+
+## What a reference shot looks like
+
+From inspecting the seasonal set — the format is likely shared, and it is the
+right format:
+
+One arrangement, plain white backdrop, white cloth beneath, flat lighting, and a
+**numbered ID card in frame** giving the design number.
+
+**References, not content.** The ID card and the clinical lighting mean none can
+be posted as-is. What they are is the correct input to the sanctioned generation
+path in `compliance.md` rule 2 — image-to-image from a real arrangement, never a
 text-prompted invention.
 
-## Naming
+## ⚠ Key on the design number, not the file
 
-Design number first, then a size and view suffix:
+In the seasonal folder, **six designs existed as two separate files each** —
+`915-Front.jpg`, `804-Front.jpg`, `911-Front.jpg`, `750-Front.jpg`,
+`777-Front.jpg`, `786-Front.jpg`, each twice, different Drive IDs, identical file
+sizes.
 
-```
-3.JPG           915-Front.jpg      459-S-Front.png      109.jpeg
-```
+If the head office folder has the same property, a duplicate check keyed on
+filename or file ID lets the same arrangement run in two posts and still pass.
+That is rule 6's defect arriving from a direction the rule did not anticipate:
+it assumed one file per photograph, and a catalogue export does not work that way.
 
-`-S-` appears to mark the small version of a design. ⚠ Unconfirmed.
+**So `imagecheck.js` keys on the design number**, and `source_images` records the
+design number. It survives renames, duplicate copies and folder reorganisation,
+which no path does.
 
-## ⚠ The catalogue contains duplicate files, and this breaks the duplicate check
+⚠ Observed in the seasonal set only. **Re-check on the real catalogue** — and
+check whether the pairs are true duplicates or two different shots of one design.
 
-The `Small` folder holds **two separate files for the same design** in at least
-six cases — `915-Front.jpg`, `804-Front.jpg`, `911-Front.jpg`, `750-Front.jpg`,
-`777-Front.jpg` and `786-Front.jpg` each appear twice, under different Drive IDs,
-at identical file sizes.
+## Where references live
 
-**So `imagecheck.js` must key on the design number parsed from the filename, not
-on the filename and not on the Drive ID.** Keying on either lets the same
-arrangement appear in two posts while the check passes — which is the same defect
-that rule 6 exists to prevent, arriving from a direction the original rule did not
-anticipate. The check is on the *design*, because the design is what a customer
-recognises.
-
-⚠ The duplicates may also be genuinely different photographs of the same design.
-Worth an eye before the rule is written into code.
-
-## How references are used
-
-1. Pull the reference from Drive by design number.
-2. Generate with it as an image reference — never text-prompted.
-3. **QC at 1:1 native pixels against that same reference.** Not on a contact
-   sheet, not at feed size.
-4. Record the design number in the package's `source_images`.
-
-## Where the references live
-
-**Drive, not the repository.** They are working reference material, several
-hundred files, and the repo is public. Only *rendered* social images are
-committed, per `people-and-images.md`.
-
-The stable identifier in a package is the **design number** — it survives file
-renames, duplicate copies and folder reorganisation, which no path does.
+**Drive, not the repository.** Working reference material, several hundred files,
+and the repo is public. Only rendered social images are committed.

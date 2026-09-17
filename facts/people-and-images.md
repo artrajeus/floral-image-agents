@@ -93,5 +93,6 @@ service and a new credential for a risk that rounds to nothing.
 **What follows from it:** do not push a rendered image until its package is worth
 someone seeing. Render locally, QC at 1:1, then push — the push is publication.
 
-**Catalogue reference images: found.** Not in the repo — they live in Google
-Drive and are reachable directly through the connector. See `catalogue.md`.
+⚠ **The social catalogue has not been received.** The Drive folder found on
+2026-09-17 turned out to be the seasonal selection, which is never advertised.
+Nothing image-related begins until the real one arrives. See `catalogue.md`.

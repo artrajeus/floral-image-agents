@@ -61,3 +61,10 @@ for the price and "refreshed every month" for the service; never fuse them into
 Because the offer is free with a condition attached (we collect if you stop),
 the condition is stated in the same breath as the word "free" — never in a
 second post, never only in the comments, never only on the landing page.
+
+
+## The seasonal selection — not a social offer
+
+A separate **$197/year** subscription covers the seasonal range of older
+arrangements. **Never advertised, in any form**, including the price. See
+`compliance.md` section 4.

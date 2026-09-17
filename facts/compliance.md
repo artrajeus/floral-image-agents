@@ -58,12 +58,24 @@ attached to a face, no invented quote, no "meet".
 
 Real Google reviews may be quoted verbatim. See `proof.md`.
 
-## 4. Real-estate agent gifting stays off social.
+## 4. The seasonal selection is never advertised.
+
+**Decided by Aaron, 2026-09-17.** The seasonal range — older arrangements sold on
+a **$197/year** subscription — is not social content in any form: not the
+arrangements, not the offer, not the price.
+
+Its reference images live in the Drive folder `AA Mitchell Available Flowers`.
+See `catalogue.md`, which names the folder explicitly so that a future run
+searching for "the catalogue" does not find the wrong one and proceed.
+
+Social content uses **only** the regular refresh range.
+
+## 5. Real-estate agent gifting stays off social.
 
 **Decided by Aaron, 2026-09-17.** The program, the agents, the agencies and the
 gifting mechanic are not social content in any form.
 
-## 5. Claims that are blocked pending evidence
+## 6. Claims that are blocked pending evidence
 
 | Claim | Status |
 |---|---|
@@ -75,28 +87,28 @@ gifting mechanic are not social content in any form.
 | Any ethical-sourcing, labour or modern-slavery claim | ❌ **Blocked in both directions.** The LCA's own social-risk section finds elevated risk in the Chinese supply chain. Do not go near it. |
 | "Sustainable", "eco-friendly", "green", "carbon neutral" as bare adjectives | ❌ **Blocked.** The evidence is a carbon figure over five years against a named comparator. Unqualified green adjectives are the textbook ACCC greenwashing finding. |
 
-## 6. Claims that are approved, in their exact wording
+## 7. Claims that are approved, in their exact wording
 
 - **"allergy-free"** — head office approved. Never escalated to
   "hypoallergenic", "safe for asthmatics", or anything clinical.
 - **"from $13 a week"**, **"no contract, cancel any time"**.
 - **Hand made.** **5 years.** **Hundreds of designs.** **No water, never wilt.**
 
-## 7. Free-offer presentation
+## 8. Free-offer presentation
 
 The trial is free with a condition — if the client does not continue, we collect
 the arrangement. Under Australian Consumer Law the condition travels with the
 word "free": same image or same caption, not a follow-up post, not a reply in
 the comments, not only on the landing page.
 
-## 8. Health, environmental and superlative claims
+## 9. Health, environmental and superlative claims
 
 No claim about health, allergies, air quality, wellbeing or environmental impact
 beyond the exact approved wording above. No "best", "only", "number one",
 "Canberra's favourite" — unsubstantiated superlatives are the easiest ACL
 finding there is.
 
-## 9. Scope of every figure travels with it
+## 10. Scope of every figure travels with it
 
 A national figure is labelled national. A lifetime figure is labelled lifetime.
 An estimate is not presented as a count. This single rule would have prevented
