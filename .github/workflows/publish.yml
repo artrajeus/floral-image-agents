@@ -1,0 +1,86 @@
+# Manual run only, for now.
+#
+# Phase 3 is one real post, watched. So this workflow has a `workflow_dispatch`
+# trigger and nothing else — the hourly cron and the `push` nudge arrive in
+# Phase 4, once a post has actually landed.
+#
+# It exists because the sandbox Claude runs in cannot reach artrajeus.github.io,
+# so the image-URL preflight can only be run somewhere with normal egress. A
+# GitHub Actions runner has that, and it also has the secrets.
+#
+# Defaults to a dry run. Posting for real takes a deliberate choice in the UI.
+
+name: publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (preflight every URL, post nothing)'
+        type: boolean
+        default: true
+      package:
+        description: 'Optional: one package path, e.g. social/queue/2026-09-19-your-kitchen-bench'
+        type: string
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  # Never two publishers at once. Publishing is idempotent, but a second run
+  # racing the record-back commit is a needless way to find that out.
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Tests
+        run: |
+          node --test publisher/test.js
+          node --test social/test.js
+
+      - name: Queue checks
+        run: node social/imagecheck.js
+
+      - name: Who are we posting as
+        env:
+          META_USER_TOKEN: ${{ secrets.META_USER_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: node publisher/whoami.js
+
+      - name: Publish
+        env:
+          META_USER_TOKEN: ${{ secrets.META_USER_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: |
+          ARGS=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ -n "${{ inputs.package }}" ]; then ARGS="$ARGS --package ${{ inputs.package }}"; fi
+          echo "node publisher/publish.js$ARGS"
+          node publisher/publish.js $ARGS
+
+      - name: Commit the media IDs back
+        if: ${{ inputs.dry_run == false }}
+        run: |
+          node social/schedule.js
+          if git diff --quiet; then
+            echo "nothing to record"
+            exit 0
+          fi
+          git config user.name  "floral-image-publisher"
+          git config user.email "floralimagecanberra@gmail.com"
+          git add social/queue social/SCHEDULE.md publisher/token-first-seen.json
+          # [skip ci] or the record-back push re-triggers the workflow and loops.
+          git commit -m "Record what went out [skip ci]"
+          git push
