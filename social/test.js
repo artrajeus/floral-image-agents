@@ -180,3 +180,82 @@ test('source_images that is not an array is rejected', () => {
   assert.equal(res.ok, false);
   assert.equal(res.problems[0].kind, 'malformed');
 });
+
+// ---------------------------------------------------------------------------
+// Choosing a source
+// ---------------------------------------------------------------------------
+
+test('unused() lists library images no package has claimed', () => {
+  const manifest = new Map([
+    ['a', { key: 'a' }], ['b', { key: 'b' }], ['c', { key: 'c' }],
+  ]);
+  const entries = [
+    { slug: 'p1', pkg: { source_images: ['A.jpg'] } },
+    { slug: 'p2', pkg: { source_images: [] } },
+  ];
+  assert.deepEqual(imagecheck.unused({ manifest, entries }), ['b', 'c']);
+});
+
+test('unused() matches regardless of separators or extension', () => {
+  const manifest = new Map([['kitchen-table-flowers', { key: 'kitchen-table-flowers' }]]);
+  const entries = [{ slug: 'p1', pkg: { source_images: ['kitchen table flowers'] } }];
+  assert.deepEqual(imagecheck.unused({ manifest, entries }), []);
+});
+
+// ---------------------------------------------------------------------------
+// Rendering
+// ---------------------------------------------------------------------------
+
+const render = require('./render');
+
+test('a centre crop keeps the target aspect and stays inside the source', () => {
+  const c = render.centreCrop(2048, 1366, 1080 / 1350);
+  assert.equal(c.h, 1366);
+  assert.equal(Math.abs(c.w / c.h - 1080 / 1350) < 0.01, true);
+  assert.equal(c.x + c.w <= 2048, true);
+  assert.equal(c.y + c.h <= 1366, true);
+});
+
+test('bias moves the crop window without leaving the frame', () => {
+  const left = render.centreCrop(2048, 1366, 4 / 5, 0);
+  const right = render.centreCrop(2048, 1366, 4 / 5, 1);
+  assert.equal(left.x, 0);
+  assert.equal(right.x + right.w, 2048);
+});
+
+test('a source outside the library cannot be rendered at all', () => {
+  // Structural, not advisory: the seasonal range has no path through this tool.
+  assert.throws(
+    () => render.findSource('aa-mitchell-seasonal-thing', [{ key: 'kitchen-table-flowers' }]),
+    (err) => err instanceof render.RenderError && /not in the library/.test(err.message),
+  );
+});
+
+test('the real library renders a feed tile at exactly 1080x1350', () => {
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'fi-render-'));
+  const res = render.render({ source: 'kitchen table flowers', slug: 'x', outRoot: out });
+  assert.equal(res.dimensions, '1080x1350');
+  assert.match(res.crop, /^\d+x\d+\+\d+\+\d+$/);
+  assert.equal(fs.existsSync(path.join(out, 'x', '1.jpg')), true);
+});
+
+test('a story renders at 1080x1920 on the brand paper ground', () => {
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'fi-render-'));
+  const res = render.render({ source: 'kitchen-table-flowers', slug: 'x', aspect: 'story', outRoot: out });
+  assert.equal(res.dimensions, '1080x1920');
+  assert.equal(path.basename(res.output), 'story.jpg');
+});
+
+test('the crop is reported back so the package can record it', () => {
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'fi-render-'));
+  const res = render.render({ source: 'kitchen-table-flowers', slug: 'x', crop: '100,50,800,1000', outRoot: out });
+  assert.equal(res.crop, '800x1000+100+50');
+});
+
+test('a crop that falls outside the source is refused', () => {
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'fi-render-'));
+  assert.throws(
+    () => render.render({ source: 'kitchen-table-flowers', slug: 'x', crop: '0,0,9000,9000', outRoot: out }),
+    (err) => /falls outside/.test(err.message),
+  );
+});

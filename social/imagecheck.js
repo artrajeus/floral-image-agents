@@ -176,9 +176,32 @@ function check(entries, { manifest = readManifest() } = {}) {
   };
 }
 
-module.exports = { check, readQueue, normalise, readManifest, QUEUE_DIR, MANIFEST_FILE };
+/**
+ * Library images no package has used yet.
+ *
+ * The generator asks this before choosing a photograph. Without it the obvious
+ * failure is reaching for the same three good images every week and then
+ * tripping the duplicate check — or worse, not tripping it, because the same
+ * staging arrived under a different name.
+ */
+function unused({ manifest = readManifest(), entries = readQueue() } = {}) {
+  const used = new Set();
+  for (const { pkg } of entries) {
+    if (!Array.isArray(pkg.source_images)) continue;
+    for (const ref of pkg.source_images) used.add(normalise(ref));
+  }
+  return [...manifest.keys()].filter((key) => !used.has(key)).sort();
+}
+
+module.exports = { check, readQueue, normalise, readManifest, unused, QUEUE_DIR, MANIFEST_FILE };
 
 if (require.main === module) {
+  if (process.argv.includes('--unused')) {
+    const free = unused();
+    console.log(free.join('\n'));
+    console.error(`${free.length} library image(s) not yet used by any package`);
+    process.exit(0);
+  }
   const result = check(readQueue());
   console.log(
     `${result.packages} package(s), ${result.distinctSources} distinct source(s), ` +

@@ -1,0 +1,32 @@
+{
+  "status": "draft",
+  "approved_by": null,
+  "approved_on": null,
+  "scheduled_utc": "YYYY-MM-DDTHH:MM:00Z",
+  "scheduled_local": "YYYY-MM-DD HH:MM Australia/Sydney (+HH:00)",
+  "pillar": "range | room | home | craft | round | case | ask",
+  "audience": "b2b | b2c | both",
+  "format": "image | carousel | story",
+  "media": [
+    {
+      "url": "https://artrajeus.github.io/floral-image-agents/social/rendered/<slug>/1.jpg",
+      "alt": "Written last, from the finished image."
+    }
+  ],
+  "caption": "",
+  "first_comment": "",
+  "link": "https://floralimagecanberra.com.au",
+  "story": {
+    "url": "https://artrajeus.github.io/floral-image-agents/social/rendered/<slug>/story.jpg",
+    "alt": ""
+  },
+  "source_images": ["library-key"],
+  "crosspost_facebook": true,
+  "posted": {
+    "ig_media_id": null,
+    "ig_comment_id": null,
+    "ig_story_id": null,
+    "fb_post_id": null,
+    "posted_at": null
+  }
+}

@@ -4,8 +4,8 @@ How a post reaches the feed, and every incident as it happens.
 
 **Status: built and scheduled. Never yet run against the real API.**
 
-Phases 2–4 are complete: `publisher/` holds the code, the workflow runs hourly,
-and 50 tests pass. What has **not** happened is Phase 3 — no credentials exist,
+Phases 2–5 are complete: `publisher/` holds the code, the workflow runs hourly,
+the generator skill is in `.claude/skills/draft-posts/`, and 59 tests pass. What has **not** happened is Phase 3 — no credentials exist,
 `whoami.js` has never been pointed at the real account, and nothing has been
 posted.
 
