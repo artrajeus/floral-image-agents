@@ -13,6 +13,9 @@ some of the catalog stuff just to say 'look, this is what we've got.'"*
 
 So the real photography leads. The catalogue is for showing the range.
 
+**Cleared sources, confirmed by Aaron 2026-09-17:** `Adelaide` · `Residential Photos`
+· `Photos for marketing` · `refresh range 2026`. Nothing else.
+
 ---
 
 ## 1. `Residential Photos` — primary B2C source
@@ -42,51 +45,69 @@ Professionally shot lifestyle photography in real homes, named by placement:
 **This is the strongest material in the whole library.** No generation needed for
 most B2C posts — these are already better than anything a model would produce.
 
-### ⚠ Consent, before any of these run
+### Consent — CONFIRMED
 
-`flowers being refreshed.jpg` and `lady holding flowers.jpg` contain
-**identifiable people**, and the folder mixes provenance — some files date from a
-2020 head-office shoot, others from 2026.
+**Aaron, 2026-09-17, on a direct question: yes, consent is held.**
 
-Aaron has said head-office shoot people are cleared. **That has not been
-established for these two specifically**, and the woman in the handover reads as
-a client at her own home rather than a model. Confirm who she is and whether a
-release exists before either appears. The rest of the folder has no people in it
-and is unaffected.
+That clears `flowers being refreshed.jpg` and `lady holding flowers.jpg`, the two
+files containing identifiable people, and the folder as a whole.
 
----
+The rule they were held against still stands and is unaffected: a **generated**
+person is never presented as a real person. Consent covers photographs of real
+people. It does not create a customer who does not exist.
 
-## 2. `Photos for marketing` — primary B2B / hero source
+## 2. `Adelaide` — the professional shoot
 
-Drive `1PNVK9HYRy8sXmZRPclrDQPW_61IQSEYP` · **60+ files**
+Drive `1yJm6wvsPloMVuans_-HSzPO6qQncvllX` · **60+ files enumerated**, numbering runs
+to at least `_268` — not fully counted.
 
-Two professional sets, plus a handful of catalogue duplicates:
+**This is the `PRINT-HI-5072_NNN.jpg` set.** 9–19 MB print masters. Cleared for use
+by Aaron, 2026-09-17.
 
-| Pattern | What it is | Size |
-|---|---|---|
-| `PRINT-HI-5072_NNN.jpg` | High-resolution print masters | 9–19 MB |
-| `NNNN_Floral_image_SYD_6thAUG2025.jpg` / `7thAUG2025` | A **Sydney** shoot, August 2025 | 12–32 MB |
-| `P20TS250NN.JPG` | Copies of catalogue files — ignore, use `refresh range 2026` | 2.5 MB |
+Finding this folder **resolved the open provenance question** on those files. They
+were sitting in `Photos for marketing` with no location recorded, and the answer is
+that they are an **Adelaide** shoot.
 
-### ⚠ The Sydney shoot is not Canberra
+## 3. `Photos for marketing` — a curated selection, not a separate shoot
 
-Files marked `_SYD_` were shot in Sydney. They are Floral Image brand imagery and
-fine to use as such.
+Drive `1PNVK9HYRy8sXmZRPclrDQPW_61IQSEYP` · 60+ files
 
-**They must never be captioned as a Canberra location, a Canberra client, or a
-Canberra workplace.** The entire premise of this account is that it is local; a
-Sydney office presented as a Canberra one is the sort of thing a local recognises
-instantly, and it costs exactly the credibility the account is being built for.
+It holds a mix rather than a distinct set:
 
-Generic framing is fine — a reception desk is a reception desk. A claim of place
-is not. If a post needs to say Canberra, it needs a photograph taken here.
+| Pattern | Origin |
+|---|---|
+| `PRINT-HI-5072_NNN.jpg` | The **Adelaide** shoot — same files as folder 2 |
+| `NNNN_Floral_image_SYD_6thAUG2025.jpg` / `7thAUG2025` | A **Sydney** shoot, August 2025 |
+| `P20TS250NN.JPG` | Copies of catalogue files — use `refresh range 2026` instead |
 
-⚠ Provenance of the `PRINT-HI-5072_*` set is unconfirmed. Ask head office where it
-was shot before any of it carries a place claim.
+### ⚠ Every professional photograph is from out of town
 
----
+**Adelaide and Sydney. Not one of them is Canberra.**
 
-## 3. `refresh range 2026` — the design catalogue
+All are cleared as Floral Image brand imagery and are the best-looking material in
+the library. **None may be captioned as a Canberra location, a Canberra client or a
+Canberra workplace.**
+
+This account exists to be local. A reception desk photographed in Adelaide, captioned
+as a Canberra reception, is the kind of thing a local spots — and it costs precisely
+the credibility the account is being built to earn.
+
+The workable line: **generic framing is fine, a place claim is not.** A close crop of
+an arrangement on a desk says "this is what we do" and is true anywhere. "This
+Canberra waiting room" is false. Anything that needs to name Canberra needs a
+photograph taken here — which is the strongest argument for Sam and Albert shooting
+on the run with a phone.
+
+### ⚠ The same file lives in two folders
+
+`PRINT-HI-5072_115`, `_123`, `_113`, `_104`, `_076`, `_074` and others appear in both
+`Adelaide` and `Photos for marketing`, under different Drive IDs.
+
+This is the duplicate-keying rule arriving in practice, not theory: **key on the
+filename stem**, never the Drive ID or the folder path. Otherwise one photograph runs
+in two posts and the check passes clean.
+
+## 4. `refresh range 2026` — the design catalogue
 
 Drive `1WZbJywxH5unW7gRcdJLB963y4iCencUw` · **60 designs**, `P20TS25001`–`P20TS25060`
 
@@ -128,9 +149,12 @@ problem even when the files differ.
 
 ## ❌ Excluded — never advertised
 
-### `AA Mitchell Available Flowers`
+### `AA Mitchell Available Flowers` — **CONFIRMED NO-GO**
 Drive `1OGhceWgwKCJT9wTzjicN8WpC_poFEUSR` — subfolders `Small`,
 `Medium and Large`, `BRAND NEW ARRANGEMENTS`.
+
+**Re-confirmed by Aaron, 2026-09-17**, on a direct question. This is settled and is
+not revisited.
 
 **Aaron, 2026-09-17:** *"that is the one that we use for the seasonal selection
 which we do not advertise. those are old arrangements that we sell a subscription

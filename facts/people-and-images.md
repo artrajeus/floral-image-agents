@@ -9,7 +9,8 @@ verified_by: Aaron (interview) + visual inspection
 
 | Who | Status |
 |---|---|
-| People in the head-office photo shoot | ✅ Consented — "they're head office people so they're fine being in the ads" |
+| People in the head-office photo shoots (Adelaide, Sydney, residential) | ✅ **Consent confirmed by Aaron, 2026-09-17** |
+| The two identifiable people in `Residential Photos` | ✅ Cleared — see `catalogue.md` |
 | Sam, Albert | ⚠ Not explicitly confirmed for social. Confirm before either appears. |
 | Clients, client staff, client premises | ❌ **Never.** See `compliance.md`. |
 
@@ -21,7 +22,7 @@ Head office organised the shoot and these are cleared for social use.
 
 | File | Status | Notes |
 |---|---|---|
-| `refresh-handoff.jpg` | ✅ **Real** — confirmed by Aaron | The handover across the reception desk |
+| `refresh-handoff.jpg` | ✅ **Real** — confirmed by Aaron twice | The flower changeover across the reception desk |
 | `van-crew.jpg` | ⚠ **Conflict — see below** | |
 | `office-smile.jpg` | ❌ Treat as generated | |
 | `trial-arrangement.jpg` | ❌ Treat as generated | Van wrap renders as a soft rainbow gradient; the real van carries a hard-edged triangular mosaic |
