@@ -2,13 +2,19 @@
 
 How a post reaches the feed, and every incident as it happens.
 
-**Status: built, tested against a mock, never yet run against the real API.**
+**Status: built and scheduled. Never yet run against the real API.**
 
-Phase 2 is complete — `publisher/` holds the code and 29 passing tests. What has
-*not* happened is Phase 3: no credentials exist yet, `whoami.js` has never been
-pointed at the real account, and nothing has been posted. A green suite proves
-the publisher behaves correctly against a model of the platform. It does not
-prove the model is right.
+Phases 2–4 are complete: `publisher/` holds the code, the workflow runs hourly,
+and 50 tests pass. What has **not** happened is Phase 3 — no credentials exist,
+`whoami.js` has never been pointed at the real account, and nothing has been
+posted.
+
+So Phase 4's checkpoint — *a scheduled post lands within the hour we expected* —
+**cannot be met yet**, and will not be until a real post has gone out. The cron is
+in place and idle. It is not evidence that anything works.
+
+A green suite proves the publisher behaves correctly against a model of the
+platform. It does not prove the model is right.
 
 Incidents get appended at the bottom of this file as they occur, with what they
 cost.
@@ -62,12 +68,27 @@ dates will be wrong. Record that honestly rather than reporting a success.
 
 ### GitHub Actions cron is not the schedule you asked for
 `*/15` on a private repo has been measured at a **median 66-minute gap, worst
-case 162**. So:
-- ask for **hourly**, not fine-grained
-- set the scheduled time **30 minutes before** the intended slot
+case 162**. Asking for four runs an hour does not get you four runs an hour; it
+gets you the same lateness with most of the runs dropped. So:
+
+- ask for **hourly**, at **minute 30** — the top of the hour is the platform's
+  busiest minute and is itself a cause of delay
+- **schedule each package ~30 minutes before the slot you want**, because
+  delivery runs late far more often than early
 - add a `push` trigger so an empty commit can nudge a late run
-- make publishing **idempotent**, so nudging is safe
+  (`./publisher/nudge.sh`)
+- make publishing **idempotent**, so nudging can never double-post
 - put **`[skip ci]`** on the record-back commit, or it loops
+
+### An hourly job that fails every hour is worse than no job
+Twenty-three hours out of twenty-four nothing is due. Those runs must be cheap
+and green: the workflow asks `publish.js --due` first, which needs no credentials
+and no network, and stops there when the answer is nothing.
+
+The reason is not tidiness. A workflow that goes red every hour trains everyone
+to ignore it, and then the failure that matters lands in an inbox nobody reads.
+So an empty queue is a green tick — and a package that **is** due with missing
+credentials fails loudly, because that one is real.
 
 ### A scheduled post cannot re-check anything when it fires
 Not stock, not weather, not a countdown. Perishable figures stay out of the

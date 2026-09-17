@@ -24,7 +24,7 @@ const { createMockGraph, createMockImageHost, DEFAULTS } = require('./mock');
 const { resolvePageToken, postPagePhoto, NoPagesError, PageNotGrantedError } = require('./facebook');
 const { assertImageUrl, PreflightError } = require('./preflight');
 const { trackToken } = require('./tokens');
-const { run, assess } = require('./publish');
+const { run, assess, listDue } = require('./publish');
 
 const IMAGE = 'https://example.test/social/rendered/a/1.jpg';
 const STORY = 'https://example.test/social/rendered/a/story.jpg';
@@ -394,4 +394,44 @@ test('missing environment fails loudly and names what is missing', async () => {
 test('a Graph call with no token is refused before it is sent', async () => {
   const { graph } = harness();
   await assert.rejects(() => graph.get('/me', {}, undefined), /Every Graph call names its own token/);
+});
+
+
+// ---------------------------------------------------------------------------
+// The cron gate: answering "is there work?" without credentials
+// ---------------------------------------------------------------------------
+
+test('listDue needs no credentials and no network', () => {
+  const q = queueWith(approvedPackage());
+  // No env, no fetch, no token. If this ever needs them, the hourly cron starts
+  // failing loudly on an empty queue, which is how alerts get muted.
+  const due = listDue({ queueDir: q.root, now: NOW });
+  assert.deepEqual(due, ['2026-09-18-test']);
+});
+
+test('listDue ignores drafts, unapproved and not-yet-due packages', () => {
+  const q = queueWith(approvedPackage({ status: 'draft', approved_by: null }), '2026-09-18-draft');
+  for (const [slug, pkg] of [
+    ['2026-09-18-noname', approvedPackage({ approved_by: null })],
+    ['2026-12-01-future', approvedPackage({ scheduled_utc: '2026-12-01T00:00:00Z' })],
+    ['2026-09-18-ok', approvedPackage()],
+  ]) {
+    const dir = path.join(q.root, slug);
+    fs.mkdirSync(dir);
+    fs.writeFileSync(path.join(dir, 'publish.json'), JSON.stringify(pkg, null, 2));
+  }
+  assert.deepEqual(listDue({ queueDir: q.root, now: NOW }), ['2026-09-18-ok']);
+});
+
+test('listDue returns nothing for an empty queue rather than throwing', () => {
+  const empty = fs.mkdtempSync(path.join(os.tmpdir(), 'fi-empty-'));
+  assert.deepEqual(listDue({ queueDir: empty, now: NOW }), []);
+});
+
+test('an already-posted package is not due again', () => {
+  const q = queueWith(approvedPackage({
+    status: 'posted',
+    posted: { ig_media_id: 'igmedia_1', fb_post_id: 'x', posted_at: '2026-09-18T23:05:00Z' },
+  }));
+  assert.deepEqual(listDue({ queueDir: q.root, now: NOW }), []);
 });

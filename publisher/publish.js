@@ -264,11 +264,39 @@ async function run(opts = {}) {
   return { posted, skipped: candidates.length - due.length, tokenAge };
 }
 
-module.exports = { run, assess, listPackages, loadPackage, savePackage, publishPackage };
+/**
+ * What is due right now — without needing any credentials.
+ *
+ * The hourly cron calls this first. Twenty-three hours out of twenty-four the
+ * answer is "nothing", and in that case the run should cost nothing and say
+ * nothing: no token fetch, no API call, no red X.
+ *
+ * That quietness is a safety property, not a nicety. A workflow that fails
+ * noisily every hour trains everyone to ignore it, and the failure that matters
+ * then arrives into an inbox nobody reads.
+ */
+function listDue({ queueDir = QUEUE_DIR, now = new Date() } = {}) {
+  return listPackages(queueDir)
+    .map(loadPackage)
+    .filter((entry) => assess(entry, { now }).publish)
+    .map((entry) => path.basename(entry.dir));
+}
+
+module.exports = { run, assess, listDue, listPackages, loadPackage, savePackage, publishPackage };
 
 if (require.main === module) {
   const argv = process.argv.slice(2);
   const only = argv.includes('--package') ? argv[argv.indexOf('--package') + 1] : null;
+
+  // `--due` answers "is there work?" with no credentials and no network, so the
+  // cron can decide whether to go any further.
+  if (argv.includes('--due')) {
+    const due = listDue();
+    console.log(due.length ? due.join('\n') : '');
+    console.error(`${due.length} package(s) approved and due`);
+    process.exit(0);
+  }
+
   run({ dryRun: argv.includes('--dry-run'), only })
     .then((r) => {
       const failed = r.posted.filter((p) => p.error);

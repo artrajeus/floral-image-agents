@@ -135,11 +135,22 @@ function render(entries, { now = new Date() } = {}) {
   lines.push('');
   lines.push('## Cron');
   lines.push('');
-  lines.push('GitHub Actions cron is not the schedule you ask for. On a private repository');
-  lines.push('`*/15` has been measured at a median gap of 66 minutes and as much as 162. So');
-  lines.push('the workflow runs **hourly**, is set 30 minutes before the intended slot, and');
-  lines.push('carries a `push` trigger so an empty commit can nudge a late run. Publishing is');
-  lines.push('idempotent, which is what makes nudging safe.');
+  lines.push('GitHub Actions cron is a best-effort queue, not a scheduler. On a private');
+  lines.push('repository `*/15` has been measured at a median gap of 66 minutes and as much as');
+  lines.push('162 — asking for four runs an hour does not get you four runs an hour, it gets');
+  lines.push('you the same lateness with most of the runs dropped.');
+  lines.push('');
+  lines.push('So the workflow runs **hourly at minute 30** (the top of the hour is the');
+  lines.push('platform\'s busiest minute and is itself a cause of delay), and `scheduled_utc`');
+  lines.push('decides what actually goes out.');
+  lines.push('');
+  lines.push('**Because delivery runs late far more often than early, schedule a package about');
+  lines.push('30 minutes before the slot you actually want.** A post set for 08:30 lands around');
+  lines.push('09:00; one set for 09:00 lands somewhere after it.');
+  lines.push('');
+  lines.push('A `push` trigger is the nudge: if a run is very late, `./publisher/nudge.sh`');
+  lines.push('makes an empty commit and starts one immediately. That is only safe because');
+  lines.push('publishing is idempotent, so a nudge can never double-post.');
   lines.push('');
   return `${lines.join('\n')}\n`;
 }
