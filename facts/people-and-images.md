@@ -93,6 +93,6 @@ service and a new credential for a risk that rounds to nothing.
 **What follows from it:** do not push a rendered image until its package is worth
 someone seeing. Render locally, QC at 1:1, then push — the push is publication.
 
-⚠ **The social catalogue has not been received.** The Drive folder found on
-2026-09-17 turned out to be the seasonal selection, which is never advertised.
-Nothing image-related begins until the real one arrives. See `catalogue.md`.
+**The social catalogue has arrived:** `refresh range 2026` in Drive, 60 designs,
+three sizes staged per frame. Not in the repo — reachable through the connector.
+See `catalogue.md`, which also names the folder that must never be used.
