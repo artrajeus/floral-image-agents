@@ -13,7 +13,12 @@ count and **SHA-256 of the original**.
 | Folder | Source | Files |
 |---|---|---|
 | `residential/` | Drive → `Residential Photos` | 18 |
-| `catalogue/` | Drive → `refresh range 2026` | 2 |
+| `catalogue/` | Drive → `refresh range 2026` | **60 — the complete range** |
+
+All 60 designs, `p20ts25001`–`p20ts25060`, no gaps. Verified: every catalogue file
+came out **portrait**, so the EXIF Orientation 6 trap was handled on ingest rather
+than carried into the repo. One was opened at full size to confirm the image is
+upright and not merely the right shape.
 
 ## What is NOT here, and why
 
@@ -24,20 +29,21 @@ tool, not a choice, and it excludes:
 - **All the Sydney shoot** (`*_Floral_image_SYD_*`), 12–32MB each
 - **Five `Residential Photos` files**: `Flowers_on_buffet`, `flowers on buffet`,
   `Proteas_on_buffet_2`, `flowers on decorative table`, `Coffee table flowers2`
-- **58 of the 60 catalogue designs** — these are only ~2.4MB and are perfectly
-  reachable; the connector simply dropped its session partway through the pull
+The catalogue is now complete. It took three passes — the connector dropped its
+session twice mid-pull — but all 60 designs are in.
 
-### Adding the rest
+### Adding the print masters, if they are ever wanted
 
-The fastest route by a wide margin is GitHub's own uploader, which takes a whole
-folder by drag-and-drop:
+Nothing over 10MB can come through the connector, so the Adelaide and Sydney sets
+have to be added by hand:
 
 1. github.com/artrajeus/floral-image-agents → **Add file → Upload files**
-2. Drag `refresh range 2026` in, targeting `social/library/catalogue/`
-3. Commit
+2. Drag the folder in, targeting `social/library/adelaide/`
+3. Commit, then rebuild `manifest.json` so the hashes cover them
 
-Then re-run the manifest build so the hashes cover the new files. Two minutes,
-against an hour of one-file-at-a-time pulls that a dropped session can interrupt.
+They are the lowest priority in the library: they are print-resolution, they are
+out-of-town, and so they can never carry a Canberra place claim. The 78 files here
+cover everyday posting.
 
 ## The finding that made this worth committing
 
