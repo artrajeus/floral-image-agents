@@ -34,11 +34,15 @@ No inconsistency to fix on the site; the page is simply not a social surface.
 
 Corporate regular refresh rates, per week:
 
-| Size | Name | Rate |
-|---|---|---|
-| Small | **Splash of Colour** | **$13/week** |
-| Medium | **Conversation Starter** | **$15/week** |
-| Large | **Wow Factor** | **$17/week** |
+| Size | Name | Rate | Position in catalogue frame |
+|---|---|---|---|
+| Small | **Splash of Colour** | **$13/week** | Front centre |
+| Medium | **Conversation Starter** | **$15/week** | Right |
+| Large | **Wow Factor** | **$17/week** | Left |
+
+Size-to-product mapping confirmed by Aaron, 2026-09-17. The catalogue shots in
+`refresh range 2026` show all three together, which makes the pricing post a
+single real photograph with three labels on it.
 
 **Approved to state publicly.** Lead form: **"from $13 a week"**.
 

@@ -1,122 +1,175 @@
 ---
 verified: 2026-09-17
-verified_by: Claude (read from Drive, two files opened at full resolution)
+verified_by: Claude (read from Drive; five files opened at full resolution)
 ---
 
-# The catalogue
+# Image sources
 
-Two distinct sets of arrangements exist. **Confusing them is a live risk**, because
-one must never appear in advertising — and it is the one a search finds first.
+Everything the generator may draw on, and everything it must not. **Read this
+before selecting any image.**
 
-## ✅ The social catalogue — the regular refresh range
+Aaron's direction, 2026-09-17: *"use those more primarily for posts, and then use
+some of the catalog stuff just to say 'look, this is what we've got.'"*
 
-**`refresh range 2026`** — Drive folder `1WZbJywxH5unW7gRcdJLB963y4iCencUw`, at the
-top level of My Drive. Uploaded by Aaron 2026-09-17 from head office.
+So the real photography leads. The catalogue is for showing the range.
 
-| | |
-|---|---|
-| Designs | **60** |
-| Naming | `P20TS25001.JPG` … `P20TS25060.JPG`, sequential, no gaps |
-| Structure | Flat. No subfolders. |
-| Duplicates | **None.** 60 files, 60 distinct design numbers. |
-| Resolution | 4032 × 3024 stored, **3024 × 4032 as displayed** — see EXIF below |
-| Camera | iPhone 15 Pro |
+---
 
-**This is the only set used for social content.**
+## 1. `Residential Photos` — primary B2C source
 
-### What each shot contains
+Drive `1Psd9cNw6wzgz72hSgAMzz992VYGpzGeH` · **31 files**
 
-**Three sizes of the same design, staged together in a real interior.** Verified by
-opening `P20TS25001` (red gladioli, lilies, cream peonies) and `P20TS25042` (king
-protea, pincushion, yellow eremurus, palm).
+Professionally shot lifestyle photography in real homes, named by placement:
 
-Consistent staging across both:
+`kitchen table flowers` · `Flowers on bench` · `maroon flowers on bench` ·
+`flowers on buffet` · `Proteas_on_buffet_1–3` · `coffee table flowers 1–2` ·
+`Lounge room flowers` · `TV unit flowers` · `Bedside table flowrs` ·
+`entranceway flowers` · `flowers in bathroom` · `Bathroom vanity flowers` ·
+`orange lily table centrepiece` · `flowers on decorative table` ·
+`Flower Delivery 1–4` · `flowers being refreshed` · `lady holding flowers` ·
+`FLORALIMAGE_HOME_WebRes_130`
 
-- Large arrangement — **left**, tall clear cylinder vase
-- Medium — **right**, tall clear vase
-- Small — **front centre**, short wide jar
-- White oval coffee table on pale timber legs, grey two-seater sofa behind, pale
-  off-white wall, grey carpet
+**Verified by opening two:**
 
-⚠ **Confirm the size mapping with Aaron.** Large/medium/small almost certainly map
-to **Wow Factor / Conversation Starter / Splash of Colour**, but nobody has said so,
-and the whole pricing post depends on getting it right.
+- **`kitchen table flowers.jpg`** — 2500×1667. A small pink rose and tulip
+  arrangement on a white benchtop beside a gas cooktop, herringbone splashback,
+  wine fridge behind. Warm, real, aspirational. **The upper-left wall is a clean
+  quiet region** for the kicker and headline. This is the B2C pillar in one frame.
+- **`flowers being refreshed.jpg`** — 2500×1667. A handover at a front garden: a
+  man in a Floral Image gilet passing an arrangement to a woman in a black
+  cardigan, brick house and hedge behind. Sunlit, natural, entirely real.
 
-### Why this set is much better than a studio reference
+**This is the strongest material in the whole library.** No generation needed for
+most B2C posts — these are already better than anything a model would produce.
 
-These are not clinical product shots. They are already staged in a room, there is no
-ID card in frame, and **the upper third of every frame is plain wall** — a genuine
-quiet region, exactly what `BRAND_KIT.md` requires for the kicker and headline to sit
-in. That requirement is usually the hardest thing to get out of a generated image,
-and here it arrives for free.
+### ⚠ Consent, before any of these run
 
-The three-sizes-in-one-frame format also directly serves the pricing post: three
-sizes, three names, three prices, one real photograph, nothing generated.
+`flowers being refreshed.jpg` and `lady holding flowers.jpg` contain
+**identifiable people**, and the folder mixes provenance — some files date from a
+2020 head-office shoot, others from 2026.
 
-### ⚠ EXIF Orientation 6 — this will produce sideways images
+Aaron has said head-office shoot people are cleared. **That has not been
+established for these two specifically**, and the woman in the handover reads as
+a client at her own home rather than a model. Confirm who she is and whether a
+release exists before either appears. The rest of the folder has no people in it
+and is unaffected.
 
-Every file is stored **landscape 4032 × 3024** with **EXIF Orientation 6** (rotate
-90° clockwise). Correct display is **portrait 3024 × 4032**.
+---
 
-Any tool that reads pixels without honouring the EXIF tag gets a rotated image and
-does not error. That includes most image libraries by default, and it is the sort of
-failure that survives all the way to a published post because the preview in the tool
-that made it looked fine.
+## 2. `Photos for marketing` — primary B2B / hero source
 
-**So: normalise orientation on ingest, before anything else touches the file.** Then
-verify by opening the result, not by trusting the step.
+Drive `1PNVK9HYRy8sXmZRPclrDQPW_61IQSEYP` · **60+ files**
+
+Two professional sets, plus a handful of catalogue duplicates:
+
+| Pattern | What it is | Size |
+|---|---|---|
+| `PRINT-HI-5072_NNN.jpg` | High-resolution print masters | 9–19 MB |
+| `NNNN_Floral_image_SYD_6thAUG2025.jpg` / `7thAUG2025` | A **Sydney** shoot, August 2025 | 12–32 MB |
+| `P20TS250NN.JPG` | Copies of catalogue files — ignore, use `refresh range 2026` | 2.5 MB |
+
+### ⚠ The Sydney shoot is not Canberra
+
+Files marked `_SYD_` were shot in Sydney. They are Floral Image brand imagery and
+fine to use as such.
+
+**They must never be captioned as a Canberra location, a Canberra client, or a
+Canberra workplace.** The entire premise of this account is that it is local; a
+Sydney office presented as a Canberra one is the sort of thing a local recognises
+instantly, and it costs exactly the credibility the account is being built for.
+
+Generic framing is fine — a reception desk is a reception desk. A claim of place
+is not. If a post needs to say Canberra, it needs a photograph taken here.
+
+⚠ Provenance of the `PRINT-HI-5072_*` set is unconfirmed. Ask head office where it
+was shot before any of it carries a place claim.
+
+---
+
+## 3. `refresh range 2026` — the design catalogue
+
+Drive `1WZbJywxH5unW7gRcdJLB963y4iCencUw` · **60 designs**, `P20TS25001`–`P20TS25060`
+
+Flat, sequential, no duplicates. Each frame shows **all three sizes of one
+design** on a white coffee table with a grey two-seater behind:
+
+| Position | Size | Product | Price |
+|---|---|---|---|
+| Left | Large | **Wow Factor** | $17/week |
+| Right | Medium | **Conversation Starter** | $15/week |
+| Front centre | Small | **Splash of Colour** | $13/week |
+
+**Confirmed by Aaron 2026-09-17.**
+
+**Used for range and pricing posts** — "this is what we've got", "three sizes,
+three prices" — and as the image-to-image reference when a specific design must be
+rendered. Not the primary source for lifestyle content.
+
+### ⚠ EXIF Orientation 6 — will produce sideways images
+
+Stored **landscape 4032 × 3024**, correct display **portrait 3024 × 4032**. A tool
+that reads pixels without honouring the tag returns a rotated image **and does not
+error**. Normalise orientation on ingest, before anything else touches the file,
+then verify by opening the result.
+
+(The `Residential Photos` files carry no EXIF orientation tag and need no
+normalisation — which is exactly why the rule has to be applied per-file rather
+than assumed for the library.)
 
 ### ⚠ All 60 share one background
 
-Same sofa, same table, same wall, in every shot. Distinct arrangements, identical
-room.
+Same sofa, same table, same wall. Sixty posts of that room reads as a catalogue
+export, not a feed. Crop tight to a single arrangement; reserve the full
+three-size frame for when showing all three is the point. **Record the crop in
+`post.md`**, not just the filename — two posts from the same staging are a grid
+problem even when the files differ.
 
-Sixty posts of that set, uncropped, produce a grid that reads as a catalogue export
-rather than a feed. The rule in `STRATEGY.md` — no source photograph in two posts —
-holds each file to one post, but it does not catch *this*, because every file is
-technically different.
+---
 
-Mitigations, in order of preference: crop tight to a single arrangement so the room
-mostly leaves frame; vary the crop and orientation between posts; use the full
-three-size frame **sparingly**, where showing all three is the point; and use
-generation to place arrangements in genuinely different settings.
+## ❌ Excluded — never advertised
 
-**Record the crop in `post.md`**, not just the file. Two posts from one file are
-still one file too many, but two posts from the same *staging* are a grid problem
-even when the files differ.
+### `AA Mitchell Available Flowers`
+Drive `1OGhceWgwKCJT9wTzjicN8WpC_poFEUSR` — subfolders `Small`,
+`Medium and Large`, `BRAND NEW ARRANGEMENTS`.
 
-## ❌ The seasonal selection — NEVER advertised
+**Aaron, 2026-09-17:** *"that is the one that we use for the seasonal selection
+which we do not advertise. those are old arrangements that we sell a subscription
+for $197 per year. we do not advertise those at all and we will not advertise
+them."*
 
-**`AA Mitchell Available Flowers`** — Drive folder `1OGhceWgwKCJT9wTzjicN8WpC_poFEUSR`,
-subfolders `Small`, `Medium and Large`, `BRAND NEW ARRANGEMENTS`.
+Note the subfolder called `BRAND NEW ARRANGEMENTS`. That label is "new" relative
+to the seasonal set, not to the refresh range, and on 2026-09-17 it was
+provisionally recorded as the catalogue before Aaron corrected it. **Named here so
+the next run does not repeat it.**
 
-**Aaron, 2026-09-17:** *"that is the one that we use for the seasonal selection which
-we do not advertise. those are old arrangements that we sell a subscription for $197
-per year. we do not advertise those at all and we will not advertise them."*
+### `AA Seasonal Selection Available Flowers`
+Drive `1jF0PpBea1tc_y4pVsIsyBoZQZvFiW_Tm`
 
-**Hard exclusion. No image from this folder tree is used as a reference, a composite
-source, or content, in any post, ever.**
+⚠ Not examined. The name puts it squarely in the excluded seasonal set, so it is
+excluded by default. **Confirm with Aaron**; treat as off-limits until he says
+otherwise.
 
-Including — especially — the subfolder called `BRAND NEW ARRANGEMENTS`. That label is
-"new" relative to the seasonal set, not to the refresh range. It is precisely what
-looks like the right folder to someone skimming, and on 2026-09-17 it was provisionally
-recorded as the catalogue before Aaron corrected it. **The folder is named here so
-that the next run does not repeat the mistake.**
+### Also not examined, status unknown — do not use
+`A Photos that need editing` · `Available Smalls 15/3` ·
+`Current available small arrangements`
 
-The $197/year seasonal subscription is likewise not a social offer. See `compliance.md`
-section 4.
+The last two read as seasonal small-arrangement availability lists. **Anything not
+positively cleared above is not used.**
+
+---
 
 ## Keying
 
-`source_images` records the **design number** — `P20TS25042` — not a path and not a
-Drive file ID. It survives renames, re-uploads and folder reorganisation, which no
-path does.
+`source_images` records a stable identifier:
 
-The seasonal set held six designs as two files each, identical sizes, different Drive
-IDs. `refresh range 2026` has no duplicates today, but a future re-export from head
-office may, so the rule stands regardless.
+- Catalogue → the design number, `P20TS25042`
+- Photography → the filename stem, `kitchen table flowers`
 
-## Where references live
+Not a path, not a Drive file ID. The seasonal set held six designs as two files
+each under different IDs; a check keyed on either would let one arrangement run
+twice and still pass.
+
+## Where they live
 
 **Drive, not the repository.** Working reference material, and the repo is public.
 Only rendered social images are committed.
