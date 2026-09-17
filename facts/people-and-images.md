@@ -93,5 +93,5 @@ service and a new credential for a risk that rounds to nothing.
 **What follows from it:** do not push a rendered image until its package is worth
 someone seeing. Render locally, QC at 1:1, then push — the push is publication.
 
-⚠ **Catalogue reference images have not been received.** Nothing image-related
-can begin until they are in the repo.
+**Catalogue reference images: found.** Not in the repo — they live in Google
+Drive and are reachable directly through the connector. See `catalogue.md`.
