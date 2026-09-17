@@ -2,9 +2,16 @@
 
 How a post reaches the feed, and every incident as it happens.
 
-**Status: not built.** The publisher is Phase 2. This file exists now because the
-platform facts below are known in advance and each one costs about a day to
-rediscover. Incidents get appended here as they occur, with what they cost.
+**Status: built, tested against a mock, never yet run against the real API.**
+
+Phase 2 is complete — `publisher/` holds the code and 29 passing tests. What has
+*not* happened is Phase 3: no credentials exist yet, `whoami.js` has never been
+pointed at the real account, and nothing has been posted. A green suite proves
+the publisher behaves correctly against a model of the platform. It does not
+prove the model is right.
+
+Incidents get appended at the bottom of this file as they occur, with what they
+cost.
 
 ---
 
